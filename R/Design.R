@@ -116,7 +116,7 @@ plot.Design <- function(design, tbl_power_annotations = NULL, ...) {
         aes(p, power) +
         geom_line() +
         scale_y_continuous("power", breaks = seq(0, 1, .1)) +
-        scale_x_continuous("p", breaks = p_breaks) +
+        scale_x_continuous("p", breaks = p_breaks, expand = c(0, 0)) +
         theme_bw() +
         theme(
             panel.grid.major.x = element_blank(),

@@ -59,7 +59,7 @@ plot_designs <- function(tbl_power_annotations = NULL, ...) {
         aes(p, power) +
         geom_line(aes(color = design_name), alpha = .66) +
         scale_y_continuous("power", breaks = seq(0, 1, .1)) +
-        scale_x_continuous("p", breaks = p_breaks) +
+        scale_x_continuous("p", breaks = p_breaks, expand = c(0, 0)) +
         scale_color_discrete("") +
         theme_bw() +
         theme(
