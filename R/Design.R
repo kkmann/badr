@@ -72,6 +72,7 @@ as_tibble.Design <- function(design) {
     )
 }
 
+#' Plot a design
 #'
 #' @importFrom ggrepel geom_text_repel
 #' @importFrom cowplot plot_grid
@@ -123,7 +124,6 @@ plot.Design <- function(design, tbl_power_annotations = NULL, ...) {
             panel.grid.minor.x = element_blank(),
             panel.grid.minor.y = element_blank()
         )
-    # browser()
     if (inherits(tbl_power_annotations, 'tbl_df')) {
         tbl_power_annotations <- tbl_power_annotations %>%
             mutate(

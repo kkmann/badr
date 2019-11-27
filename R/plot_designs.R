@@ -1,4 +1,6 @@
+#' Plot and compare multiple designs
 #'
+#' @include Design.R
 #' @export
 plot_designs <- function(tbl_power_annotations = NULL, ...) {
     designs <- list(...)
@@ -86,9 +88,3 @@ plot_designs <- function(tbl_power_annotations = NULL, ...) {
     }
     cowplot::plot_grid(p1, p2, ncol = 1, rel_heights = c(4, 3))
 }
-
-plot_designs(a = design1, design1, design1, design2, tbl_power_annotations = tibble(
-    p     = c(p0, mrv, .55),
-    label = c('null', 'MRV', '???')
-))
-
