@@ -77,7 +77,7 @@ plot_designs <- function(tbl_power_annotations = NULL, ...) {
             geom_vline(aes(xintercept = p), color = 'lightgray', size = .5,
                        data = tbl_power_annotations) +
             ggrepel::geom_text_repel(
-                aes(label = label), nudge_x = .15, nudge_y = .01, size = 3.5,
+                aes(label = label), nudge_x = .15, nudge_y = .01, size = 3,
                 segment.color = 'darkgray',
                 xlim = c(0, 1), ylim = c(0, 1),
                 data = tbl_power_annotations
