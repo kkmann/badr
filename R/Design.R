@@ -122,10 +122,19 @@ plot.Design <- function(design, tbl_power_annotations = NULL, ...) {
         p     = seq(0, 1, by = .001),
         power = power(design, p)
     )
+    p_breaks <- seq(0, 1, by = .2)
+    if (inherits(tbl_power_annotations, 'tbl_df')) {
+        pp <- tbl_power_annotations$p
+        for (i in 1:length(p_breaks)) {
+            if (any(abs(pp - p_breaks[i]) < .1)) p_breaks[i] <- NA_real_
+        }
+        p_breaks <- unique(c(p_breaks[complete.cases(p_breaks)], tbl_power_annotations$p))
+    }
     p2 <- ggplot(tbl_plot) +
         aes(p, power) +
         geom_line() +
         scale_y_continuous("power", breaks = seq(0, 1, .1)) +
+        scale_x_continuous("p", breaks = p_breaks) +
         theme_bw() +
         theme(
             panel.grid.major.x = element_blank(),
