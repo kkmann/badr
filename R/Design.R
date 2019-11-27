@@ -140,11 +140,11 @@ plot.Design <- function(design, tbl_power_annotations = NULL, ...) {
                 label = sprintf("%.1f%% (%s)", 100*power, label)
             )
         p2 <- p2 +
-            geom_vline(aes(xintercept = p), color = 'gray',
+            geom_vline(aes(xintercept = p), color = 'lightgray', size = .5,
                               data = tbl_power_annotations) +
             ggrepel::geom_text_repel(
-                aes(label = label), nudge_x = .25, nudge_y = .01,
-                segment.color = 'gray',
+                aes(label = label), nudge_x = .25, nudge_y = .01, size = 3.5,
+                segment.color = 'darkgray',
                 xlim = c(0, 1), ylim = c(0, 1),
                 data = tbl_power_annotations
             ) +
@@ -152,4 +152,3 @@ plot.Design <- function(design, tbl_power_annotations = NULL, ...) {
     }
     gridExtra::grid.arrange(p1, p2, nrow = 1)
 }
-
