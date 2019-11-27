@@ -1,3 +1,4 @@
+#'@export
 maximal_type_one_error_rate <- function(p0, alpha, k = 2L) {
     structure(list(
             jcnstr = JuliaCall::julia_call("maximal_type_one_error_rate", p0, alpha, k = k)
@@ -5,6 +6,7 @@ maximal_type_one_error_rate <- function(p0, alpha, k = 2L) {
     )
 }
 
+#'@export
 minimal_expected_power <- function(prior, mrv, threshold,
                                    conditional_threshold = .5,
                                    power_curtail = .999) {

@@ -1,3 +1,4 @@
+#'@export
 Problem <- function(objective, toer, power) {
     structure(list(
             jproblem = JuliaCall::julia_call("Problem", objective$jobjective, toer$jcnstr, power$jcnstr)
@@ -5,10 +6,13 @@ Problem <- function(objective, toer, power) {
     )
 }
 
+#'@export
+optimise         <- function(problem, ...) UseMethod('optimise', problem)
 
-optimise         <- function(problem, ...) UseMethod('problem')
-optimise.Problem <- function(problem, verbosity = 3, timelimit = 300) {
+#'@export
+optimise.Problem <- function(problem, verbosity = 3, timelimit = 600, ...) {
     Design(
         JuliaCall::julia_call("optimise", problem$jproblem, verbosity = verbosity, timelimit = timelimit)
     )
 }
+

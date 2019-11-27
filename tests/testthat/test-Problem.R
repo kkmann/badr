@@ -10,4 +10,7 @@ problem <- Problem(
     minimal_expected_power(prior, mrv, 1 - beta)
 )
 
-optimise.Problem(problem)
+design <- optimise(problem)
+
+as_tibble(design)
+

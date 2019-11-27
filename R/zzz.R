@@ -1,3 +1,13 @@
+#' badr
+#'
+#' [todo]
+#'
+#' @import tidyverse
+#'
+#' @docType package
+#' @name badr
+NULL
+
 .onLoad <- function(libname, pkgname){
     tryCatch({
         JuliaCall::julia_command('using bad')
