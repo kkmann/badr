@@ -14,3 +14,6 @@ design <- optimise(problem)
 
 as_tibble(design)
 
+
+
+plot(design)
