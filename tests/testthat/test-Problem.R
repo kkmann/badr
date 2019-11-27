@@ -10,15 +10,27 @@ problem <- Problem(
     minimal_expected_power(prior, mrv, 1 - beta)
 )
 
-design <- optimise(problem)
+design1 <- optimise(problem)
 
-as_tibble(design)
+as_tibble(design1)
 
-power(design, seq(0, 1, by = .01))
+power(design1, seq(0, 1, by = .01))
 
-plot(design,
+plot(design1,
      tbl_power_annotations = tibble(
          p     = c(p0, mrv, .55),
          label = c('null', 'MRV', '???')
      )
 )
+
+prior <- Beta(5, 6)
+
+problem <- Problem(
+    minimise_expected_sample_size(prior),
+    maximal_type_one_error_rate(p0, alpha),
+    minimal_expected_power(prior, mrv, 1 - beta)
+)
+
+design2 <- optimise(problem)
+
+plot_designs(a = design1, b = design2)

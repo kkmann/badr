@@ -74,28 +74,10 @@ as_tibble.Design <- function(design) {
 
 #'
 #' @importFrom ggrepel geom_text_repel
+#' @importFrom cowplot plot_grid
 #' @export
 plot.Design <- function(design, tbl_power_annotations = NULL, ...) {
-    tbl_plot <- as_tibble(design) %>%
-        select(`x1/n1`, n2, c2) %>%
-        group_by(`x1/n1`) %>%
-        nest() %>%
-        mutate(
-            x1 = map(data, ~tibble(x1 = 0:n1(design))),
-            x2 = map(data, ~tibble(
-                x2     = 0:(.$n2),
-                reject = x2 > (.$c2)
-            )
-            )
-        ) %>%
-        unnest(c(x1, data)) %>%
-        unnest(x2) %>%
-        ungroup() %>%
-        transmute(
-            `x1/n1`,
-            x = x1 + x2,
-            reject
-        )
+    tbl_plot <- get_tbl_plot(design)
     breaks_x <- c(0, early_futility(design)/n1(design), early_efficacy(design)/n1(design), 1)
     labels_x <- map2_chr(
         breaks_x,
@@ -159,5 +141,5 @@ plot.Design <- function(design, tbl_power_annotations = NULL, ...) {
             ) +
             geom_point(data = tbl_power_annotations)
     }
-    gridExtra::grid.arrange(p1, p2, nrow = 1)
+    cowplot::plot_grid(p1, p2, nrow = 1)
 }
