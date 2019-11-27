@@ -14,6 +14,11 @@ design <- optimise(problem)
 
 as_tibble(design)
 
+power(design, seq(0, 1, by = .01))
 
-
-plot(design)
+plot(design,
+     tbl_power_annotations = tibble(
+         p     = c(p0, mrv, .5),
+         label = c('null', 'MRV', '???')
+     )
+)

@@ -50,6 +50,11 @@ early_efficacy.Design <- function(design) {
     JuliaCall::julia_call('early_efficacy', design$jdesign)
 }
 
+#'@export
+power <- function(design, p, ...) {
+    JuliaCall::julia_call('power.', design$jdesign, p)
+}
+
 #' Convert Design-object to tibble
 #'
 #' @importFrom tibble as_tibble
@@ -67,8 +72,10 @@ as_tibble.Design <- function(design) {
     )
 }
 
+#'
+#' @importFrom ggrepel geom_text_repel
 #' @export
-plot.Design <- function(design) {
+plot.Design <- function(design, tbl_power_annotations = NULL, ...) {
     tbl_plot <- as_tibble(design) %>%
         select(`x1/n1`, n2, c2) %>%
         group_by(`x1/n1`) %>%
@@ -96,7 +103,7 @@ plot.Design <- function(design) {
         ~sprintf("%4.2f (%i)", .x, .y)
     )
     breaks_y <- unique(c(seq(0, max(n(design, seq(0, n1(design)))), by = 10), n1(design)))
-    ggplot(tbl_plot) +
+    p1 <- ggplot(tbl_plot) +
         aes(x = `x1/n1`, y = x) +
         geom_tile(aes(fill = reject), width = .4/n1(design), height = .75) +
         scale_x_continuous("stage-one success rate (absolute count)", breaks = breaks_x, labels = labels_x) +
@@ -111,5 +118,38 @@ plot.Design <- function(design) {
             legend.justification = c(1, 1),
             legend.direction     = 'horizontal'
         )
+    tbl_plot <- tibble(
+        p     = seq(0, 1, by = .001),
+        power = power(design, p)
+    )
+    p2 <- ggplot(tbl_plot) +
+        aes(p, power) +
+        geom_line() +
+        scale_y_continuous("power", breaks = seq(0, 1, .1)) +
+        theme_bw() +
+        theme(
+            panel.grid.major.x = element_blank(),
+            panel.grid.minor.x = element_blank(),
+            panel.grid.minor.y = element_blank()
+        )
+    # browser()
+    if (inherits(tbl_power_annotations, 'tbl_df')) {
+        tbl_power_annotations <- tbl_power_annotations %>%
+            mutate(
+                power = power(design, p),
+                label = sprintf("%.1f%% (%s)", 100*power, label)
+            )
+        p2 <- p2 +
+            geom_vline(aes(xintercept = p), color = 'gray',
+                              data = tbl_power_annotations) +
+            ggrepel::geom_text_repel(
+                aes(label = label), nudge_x = .25, nudge_y = .01,
+                segment.color = 'gray',
+                xlim = c(0, 1), ylim = c(0, 1),
+                data = tbl_power_annotations
+            ) +
+            geom_point(data = tbl_power_annotations)
+    }
+    gridExtra::grid.arrange(p1, p2, nrow = 1)
 }
 
