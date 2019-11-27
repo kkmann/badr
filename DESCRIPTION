@@ -12,7 +12,8 @@ LazyData: true
 Depends:
     tidyverse (>= 1.2.1)
 Imports:
-    JuliaCall (>= 0.17.0) 
+    JuliaCall (>= 0.17.0),
+    cowplot (>= 1.0.0)
 Suggests: 
     testthat (>= 2.1.0)
 RoxygenNote: 6.1.1
