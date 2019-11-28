@@ -8,6 +8,11 @@ Design <- function(jdesign, label = '') {
     )
 }
 
+#' @export
+as_Design <- function(n2, c2, label = '') {
+    Design(JuliaCall::julia_call('Design', n2, c2), label = label)
+}
+
 #'@export
 n1        <- function(design) UseMethod('n1')
 #'@export
@@ -55,6 +60,11 @@ power <- function(design, p, ...) {
     JuliaCall::julia_call('power.', design$jdesign, p)
 }
 
+#'@export
+expected_sample_size <- function(design, p, ...) {
+    JuliaCall::julia_call('expected_sample_size.', design$jdesign, p)
+}
+
 #' Convert Design-object to tibble
 #'
 #' @importFrom tibble as_tibble
@@ -78,19 +88,28 @@ as_tibble.Design <- function(design) {
 #' @importFrom cowplot plot_grid
 #' @export
 plot.Design <- function(design, tbl_power_annotations = NULL, ...) {
-    tbl_plot <- get_tbl_plot(design)
-    breaks_x <- c(0, early_futility(design)/n1(design), early_efficacy(design)/n1(design), 1)
+    tbl_plot  <- get_tbl_plot(design)
+    breaks_x  <- c(0, 1)
+    breaks_xx <- c(0, n1(design))
+    if (is.finite(early_futility(design)) & early_futility(design)/n1(design) >= .1) {
+        breaks_x  <- c(breaks_x, early_futility(design)/n1(design))
+        breaks_xx <- c(breaks_xx, early_futility(design))
+    }
+    if (is.finite(early_efficacy(design)) & early_efficacy(design)/n1(design) <= .9 & (early_efficacy(design) - early_futility(design))/n1(design) >= .1) {
+        breaks_x  <- c(breaks_x, early_efficacy(design)/n1(design))
+        breaks_xx <- c(breaks_xx, early_efficacy(design))
+    }
     labels_x <- map2_chr(
         breaks_x,
-        c(0, early_futility(design), early_efficacy(design), n1(design)),
+        breaks_xx,
         ~sprintf("%4.2f (%i)", .x, .y)
     )
-    breaks_y <- unique(c(seq(0, max(n(design, seq(0, n1(design)))), by = 10), n1(design)))
+    breaks_y <- unique(c(seq(0, max(n(design, seq(0, n1(design))))*1.075, by = 10), n1(design)))
     p1 <- ggplot(tbl_plot) +
         aes(x = `x1/n1`, y = x) +
         geom_tile(aes(fill = reject), width = .4/n1(design), height = .75) +
         scale_x_continuous("stage-one success rate (absolute count)", breaks = breaks_x, labels = labels_x) +
-        scale_y_continuous("overall sample size", breaks = breaks_y) +
+        scale_y_continuous("overall sample size", breaks = breaks_y, limits = c(NA, max(n(design, seq(0, n1(design))))*1.075)) +
         scale_fill_manual('', breaks = c(FALSE, TRUE), labels = c('accept', 'reject'),
                           values = c('darkgray', 'black')) +
         theme_bw() +

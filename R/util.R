@@ -20,3 +20,27 @@ get_tbl_plot <- function(design) {
             reject
         )
 }
+
+#' @export
+binomial_test <- function(alpha, beta, p0, p1) {
+    z_1_a   <- qnorm(1 - alpha)
+    z_1_b   <- qnorm(1 - beta)
+    napprox <- p1*(1 - p1)*((z_1_a + z_1_b) / (p1 - p0))^2
+    nn      <- as.integer(ceiling(napprox))
+    f       <- function(n) {
+        candidates <- which((1 - pbinom(seq(0, n), size = n, prob = p0) ) > alpha)
+        ifelse(length(candidates) == 0, n, tail(candidates, 1))
+    }
+    cc      <- f(nn)
+    tibble(
+        n     = seq(0, nn),
+        c     = map_int(n, f),
+        power = 1 - pbinom(c, size = n, prob = p1),
+        toer  = 1 - pbinom(c, size = n, prob = p0)
+    ) %>%
+    filter(power >= 1 - beta, toer <= alpha) %>%
+    arrange(n) %>%
+    {
+        return(list(n = pull(., n)[1], c = pull(., c)[1]))
+    }
+}

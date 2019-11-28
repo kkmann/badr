@@ -4,7 +4,7 @@
 \alias{plot_designs}
 \title{Plot and compare multiple designs}
 \usage{
-plot_designs(tbl_power_annotations = NULL, ...)
+plot_designs(..., tbl_power_annotations = NULL)
 }
 \description{
 Plot and compare multiple designs
