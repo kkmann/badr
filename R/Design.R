@@ -89,36 +89,27 @@ as_tibble.Design <- function(design) {
 #' @export
 plot.Design <- function(design, tbl_power_annotations = NULL, ...) {
     tbl_plot  <- get_tbl_plot(design)
-    breaks_x  <- c(0, 1)
-    breaks_xx <- c(0, n1(design))
-    if (is.finite(early_futility(design)) & early_futility(design)/n1(design) >= .1) {
-        breaks_x  <- c(breaks_x, early_futility(design)/n1(design))
-        breaks_xx <- c(breaks_xx, early_futility(design))
-    }
-    if (is.finite(early_efficacy(design)) & early_efficacy(design)/n1(design) <= .9 & (early_efficacy(design) - early_futility(design))/n1(design) >= .1) {
-        breaks_x  <- c(breaks_x, early_efficacy(design)/n1(design))
-        breaks_xx <- c(breaks_xx, early_efficacy(design))
-    }
-    labels_x <- map2_chr(
-        breaks_x,
-        breaks_xx,
-        ~sprintf("%4.2f (%i)", .x, .y)
-    )
     breaks_y <- unique(c(seq(0, max(n(design, seq(0, n1(design))))*1.075, by = 10), n1(design)))
     p1 <- ggplot(tbl_plot) +
-        aes(x = `x1/n1`, y = x) +
-        geom_tile(aes(fill = reject), width = .4/n1(design), height = .75) +
-        scale_x_continuous("stage-one success rate (absolute count)", breaks = breaks_x, labels = labels_x) +
-        scale_y_continuous("overall sample size", breaks = breaks_y, limits = c(NA, max(n(design, seq(0, n1(design))))*1.075)) +
-        scale_fill_manual('', breaks = c(FALSE, TRUE), labels = c('accept', 'reject'),
+        aes(x1, x) +
+        geom_tile(aes(fill = reject), width = .45, height = .75) +
+        geom_segment(x = -.45/2, xend = .45/2, y = n1(design), yend = n1(design),
+                     color = ifelse(c2(design, 0) >= 0, 'darkgray', 'black')) +
+        geom_segment(x = 0, xend = 0, y = n1(design) - .75/2, yend = n1(design) + .75/2,
+                     color = ifelse(c2(design, 0) >= 0, 'darkgray', 'black')) +
+        scale_x_continuous("stage-one responses", limits = c(0, NA)) +
+        scale_y_continuous("overall sample size", breaks = breaks_y, limits = c(0, max(n(design, seq(0, n1(design))))*1.05)) +
+        scale_fill_manual('', breaks = c(FALSE, TRUE), labels = c('not reject', 'reject'),
                           values = c('darkgray', 'black')) +
         theme_bw() +
         theme(
             panel.grid.major.x   = element_blank(),
             panel.grid.minor.x   = element_blank(),
+            panel.grid.minor.y   = element_blank(),
             legend.position      = c(.99, .99),
             legend.justification = c(1, 1),
-            legend.direction     = 'horizontal'
+            legend.direction     = 'horizontal',
+            legend.key.size      = grid::unit(.5, 'lines')
         )
     tbl_plot <- tibble(
         p     = seq(0, 1, by = .001),

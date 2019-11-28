@@ -21,26 +21,43 @@ plot_designs <- function(..., tbl_power_annotations = NULL) {
             seq(1, length(designs)),
             function(i) get_tbl_plot(designs[[i]]) %>%
                 mutate(
-                    design_name = names(designs)[i],
-                    width       = .4/n1(designs[[i]])
+                    design_name = names(designs)[i]
                 )
         ) %>%
         bind_rows()
+    tbl_zeros <- tibble(
+        design      = designs,
+        design_name = names(designs)
+    ) %>%
+        mutate(
+            data = map(design, ~tibble(
+                    x      = c(0, -.45/2),
+                    xend   = c(0,  .45/2),
+                    y      = c(n1(.) - .75/2, n1(.)),
+                    yend   = c(n1(.) + .75/2, n1(.)),
+                    reject = ifelse(c2(., 0) >= 0, FALSE, TRUE)
+                )
+            )
+        ) %>%
+        unnest(data) %>%
+        select(-design)
     p1 <- ggplot(tbl_plot) +
-        aes(x = `x1/n1`, y = x) +
-        geom_tile(aes(fill = reject, width = width), height = .75) +
-        scale_x_continuous("stage-one success rate",
-                           breaks = seq(0, 1, by = .2)) +
+        aes(x = x1, y = x) +
+        geom_tile(aes(fill = reject), width = .45, height = .75) +
+        geom_segment(aes(x = x, y = y, xend = xend, yend = yend, color = reject),
+                     data = tbl_zeros) +
+        scale_x_continuous("stage-one responses") +
         scale_y_continuous("overall sample size", breaks = seq(0, max(tbl_plot$x), by = 10)) +
         scale_fill_manual('', breaks = c(FALSE, TRUE), labels = c('not reject', 'reject'),
-                          values = c('darkgray', 'black')) +
-        facet_wrap(~design_name, nrow = 1) +
+                          values = c('darkgray', 'black'), aesthetics =  c('fill', 'color')) +
+        facet_wrap(~design_name, nrow = 1, scales = 'free_x') +
         theme_bw() +
         theme(
             panel.grid.major.x   = element_blank(),
             panel.grid.minor.x   = element_blank(),
             legend.position      = 'top',
-            legend.direction     = 'horizontal'
+            legend.direction     = 'horizontal',
+            legend.key.size      = grid::unit(.5, 'lines')
         )
     legend1 <- cowplot::get_legend(p1)
     tbl_plot <- map(

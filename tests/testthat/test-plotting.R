@@ -16,9 +16,9 @@ dsgn_simon <- as_Design(
     label = "Simon's"
 )
 
-plot(dsgn_binom)
-
 plot(dsgn_simon)
+
+plot(dsgn_binom)
 
 plot_designs(dsgn_binom, dsgn_simon, tbl_power_annotations = tibble(
     p     = c(p0, p1),

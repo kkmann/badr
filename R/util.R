@@ -1,22 +1,24 @@
 get_tbl_plot <- function(design) {
+    tibble(
+        x1 = 0:n1(design),
+        n1 = n1(design)
+    )
     as_tibble(design) %>%
-        select(`x1/n1`, n2, c2) %>%
-        group_by(`x1/n1`) %>%
+        select(x1, n1, n2, c2) %>%
+        group_by(x1) %>%
         nest() %>%
         mutate(
-            x1 = map(data, ~tibble(x1 = 0:n1(design))),
-            x2 = map(data, ~tibble(
-                x2     = 0:(.$n2),
-                reject = x2 > (.$c2)
-            )
+            tmp = map2(x1, data, function(rate, d)
+                expand_grid(xx1 = 0:d$n1, x2 = 0:d$n2) %>%
+                mutate(reject = x2 > d$c2) %>%
+                filter(xx1 >= d$n1 - x1 + 1)
             )
         ) %>%
-        unnest(c(x1, data)) %>%
-        unnest(x2) %>%
+        unnest(tmp) %>% unnest(data) %>%
         ungroup() %>%
         transmute(
-            `x1/n1`,
-            x = x1 + x2,
+            x1,
+            x       = xx1 + x2,
             reject
         )
 }
