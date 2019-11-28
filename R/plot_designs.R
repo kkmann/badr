@@ -77,19 +77,30 @@ plot_designs <- function(..., tbl_power_annotations = NULL) {
     if (inherits(tbl_power_annotations, 'tbl_df')) {
         tbl_power_annotations <- tbl_power_annotations %>%
             mutate(
-                power = power(design, p),
-                label = sprintf("%.1f%% (%s)", 100*power, label)
+                data = map(
+                    p,
+                    ~tibble(
+                        design_name = names(designs),
+                        power       = map_dbl(designs, function(x) power(x, .)),
+                        ess         = map_dbl(designs, function(x) expected_sample_size(x, .))
+                    )
+                )
+            ) %>%
+            unnest(data) %>%
+            mutate(
+                label_power = sprintf("%.1f%% (%s)", 100*power, design_name),
+                label_ess   = sprintf("%.1f (%s)", ess, design_name)
             )
         p2 <- p2 +
             geom_vline(aes(xintercept = p), color = 'lightgray', size = .5,
                        data = tbl_power_annotations) +
             ggrepel::geom_text_repel(
-                aes(label = label), nudge_x = .15, nudge_y = .01, size = 3,
+                aes(label = label_power), nudge_x = .15, nudge_y = .01, size = 2,
                 segment.color = 'darkgray',
                 xlim = c(0, 1), ylim = c(0, 1),
                 data = tbl_power_annotations
             ) +
-            geom_point(data = tbl_power_annotations)
+            geom_point(data = tbl_power_annotations, size = .5)
     }
     p3 <- ggplot(tbl_plot) +
         aes(p, ess) +
@@ -105,21 +116,16 @@ plot_designs <- function(..., tbl_power_annotations = NULL) {
             legend.position    = 'none'
         )
     if (inherits(tbl_power_annotations, 'tbl_df')) {
-        tbl_power_annotations <- tbl_power_annotations %>%
-            mutate(
-                ess   = expected_sample_size(design, p),
-                label = sprintf("%.1f (%s)", ess, label)
-            )
         p3 <- p3 +
             geom_vline(aes(xintercept = p), color = 'lightgray', size = .5,
                        data = tbl_power_annotations) +
             ggrepel::geom_text_repel(
-                aes(label = label), nudge_x = .15, nudge_y = .01, size = 3,
+                aes(label = label_ess), nudge_x = .15, nudge_y = -1, size = 2,
                 segment.color = 'darkgray',
-                xlim = c(0, 1), ylim = c(0, 1),
+                xlim = c(0, 1),
                 data = tbl_power_annotations
             ) +
-            geom_point(data = tbl_power_annotations)
+            geom_point(data = tbl_power_annotations, size = .5)
     }
     legend2 <- cowplot::get_legend(p2)
     cowplot::plot_grid(
