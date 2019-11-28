@@ -11,14 +11,15 @@ get_tbl_plot <- function(design) {
             tmp = map2(x1, data, function(rate, d)
                 expand_grid(xx1 = 0:d$n1, x2 = 0:d$n2) %>%
                 mutate(reject = x2 > d$c2) %>%
-                filter(xx1 >= d$n1 - x1 + 1)
+                filter((xx1 >= d$n1 - x1 + 1) | (x1 == 0 & d$n2 > 0),
+                       !(x1 == 0 & xx1 > 0), !(x1 == 0 & x2 == 0) )
             )
         ) %>%
         unnest(tmp) %>% unnest(data) %>%
         ungroup() %>%
         transmute(
             x1,
-            x       = xx1 + x2,
+            x       = ifelse(x1 == 0, n1 + x2, xx1 + x2),
             reject
         )
 }

@@ -26,9 +26,9 @@ plot_designs <- function(..., tbl_power_annotations = NULL) {
         ) %>%
         bind_rows()
     tbl_zeros <- tibble(
-        design      = designs,
-        design_name = names(designs)
-    ) %>%
+            design      = designs,
+            design_name = names(designs)
+        ) %>%
         mutate(
             data = map(design, ~tibble(
                     x      = c(0, -.45/2),
@@ -39,10 +39,20 @@ plot_designs <- function(..., tbl_power_annotations = NULL) {
                 )
             )
         ) %>%
+        filter(map_lgl(design, ~n2(., 0) == 0)) %>%
         unnest(data) %>%
+        select(-design)
+    tbl_n1 <- tibble(
+            design      = designs,
+            design_name = names(designs)
+        ) %>%
+        mutate(
+            n1 = map_dbl(design, n1)
+        ) %>%
         select(-design)
     p1 <- ggplot(tbl_plot) +
         aes(x = x1, y = x) +
+        geom_hline(aes(yintercept = n1), data = tbl_n1) +
         geom_tile(aes(fill = reject), width = .45, height = .75) +
         geom_segment(aes(x = x, y = y, xend = xend, yend = yend, color = reject),
                      data = tbl_zeros) +
@@ -105,15 +115,16 @@ plot_designs <- function(..., tbl_power_annotations = NULL) {
             ) %>%
             unnest(data) %>%
             mutate(
-                label_power = sprintf("%.1f%% (%s)", 100*power, design_name),
-                label_ess   = sprintf("%.1f (%s)", ess, design_name)
+                label_power = sprintf("%.2f%% (%s)", 100*power, design_name),
+                label_ess   = sprintf("%.2f (%s)", ess, design_name)
             )
         p2 <- p2 +
             geom_vline(aes(xintercept = p), color = 'lightgray', size = .5,
                        data = tbl_power_annotations) +
             ggrepel::geom_text_repel(
-                aes(label = label_power), nudge_x = .15, nudge_y = .01, size = 2,
-                segment.color = 'darkgray',
+                aes(label = label_power), nudge_x = .1, nudge_y = .01, size = 2,
+                segment.color = 'darkgray', seed = 42, max.iter = 10000,
+                min.segment.length = Inf,
                 xlim = c(0, 1), ylim = c(0, 1),
                 data = tbl_power_annotations
             ) +
@@ -137,8 +148,9 @@ plot_designs <- function(..., tbl_power_annotations = NULL) {
             geom_vline(aes(xintercept = p), color = 'lightgray', size = .5,
                        data = tbl_power_annotations) +
             ggrepel::geom_text_repel(
-                aes(label = label_ess), nudge_x = .15, nudge_y = -1, size = 2,
-                segment.color = 'darkgray',
+                aes(label = label_ess), nudge_x = .1, nudge_y = -1, size = 2,
+                segment.color = 'darkgray', seed = 42, max.iter = 10000,
+                min.segment.length = Inf,
                 xlim = c(0, 1),
                 data = tbl_power_annotations
             ) +

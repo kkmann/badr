@@ -92,6 +92,7 @@ plot.Design <- function(design, tbl_power_annotations = NULL, ...) {
     breaks_y <- unique(c(seq(0, max(n(design, seq(0, n1(design))))*1.075, by = 10), n1(design)))
     p1 <- ggplot(tbl_plot) +
         aes(x1, x) +
+        geom_hline(yintercept = n1(design)) +
         geom_tile(aes(fill = reject), width = .45, height = .75) +
         geom_segment(x = -.45/2, xend = .45/2, y = n1(design), yend = n1(design),
                      color = ifelse(c2(design, 0) >= 0, 'darkgray', 'black')) +
@@ -146,7 +147,8 @@ plot.Design <- function(design, tbl_power_annotations = NULL, ...) {
             ggrepel::geom_text_repel(
                 aes(label = label), nudge_x = .25, nudge_y = .01, size = 3.5,
                 segment.color = 'darkgray',
-                xlim = c(0, 1), ylim = c(0, 1),
+                xlim = c(0, 1), ylim = c(0, 1), seed = 42, max.iter = 10000,
+                min.segment.length = Inf,
                 data = tbl_power_annotations
             ) +
             geom_point(data = tbl_power_annotations)
