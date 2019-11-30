@@ -7,6 +7,15 @@ maximal_type_one_error_rate <- function(p0, alpha, k = 2L) {
 }
 
 #'@export
+no_type_one_error_rate_constraint <- function(p0, alpha) {
+    structure(list(
+        jcnstr = JuliaCall::julia_call("NoTypeOneErrorRateConstraint", p0, alpha)
+    ), class = c('NoTypeOneErrorRateConstraint', 'TypeOneErrorRateConstraint', 'list')
+    )
+}
+
+
+#'@export
 minimal_expected_power <- function(prior, mrv, threshold,
                                    conditional_threshold = .5,
                                    power_curtail = .999) {
@@ -16,3 +25,10 @@ minimal_expected_power <- function(prior, mrv, threshold,
     )
 }
 
+#'@export
+no_power_constraint <- function(p1, beta) {
+    structure(list(
+            jcnstr = JuliaCall::julia_call("NoPowerConstraint", p1, beta)
+        ), class = c('NoPowerConstraint', 'PowerConstraint', 'list')
+    )
+}

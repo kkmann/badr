@@ -124,6 +124,7 @@ plot.Design <- function(design, tbl_power_annotations = NULL, ...) {
         }
         p_breaks <- unique(c(p_breaks[complete.cases(p_breaks)], tbl_power_annotations$p))
     }
+    p_breaks <- round(p_breaks, 2)
     p2 <- ggplot(tbl_plot) +
         aes(p, power) +
         geom_line() +

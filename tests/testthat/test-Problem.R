@@ -34,3 +34,19 @@ problem <- Problem(
 design2 <- optimise(problem)
 
 plot_designs(a = design1, b = design2)
+
+
+problem <- Problem(
+    minimise_expected_sample_size(PointMass(.4)),
+    maximal_type_one_error_rate(p0, alpha),
+    minimal_expected_power(PointMass(.4), .4, 1 - beta)
+)
+design <- optimise(problem)
+
+
+Problem(
+    maximise_utility(Beta(5, 7), 300, -600, .3),
+    no_type_one_error_rate_constraint(.2, .075),
+    no_power_constraint(.4, .15)
+) %>%
+optimise

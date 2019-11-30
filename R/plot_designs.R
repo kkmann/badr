@@ -3,7 +3,7 @@
 #' @importFrom cowplot get_legend
 #' @include Design.R
 #' @export
-plot_designs <- function(..., tbl_power_annotations = NULL) {
+plot_designs <- function(..., tbl_power_annotations = NULL, min.segment.length = Inf) {
     designs <- list(...)
     if (is.null(names(designs))) names(designs) <- map_chr(designs, ~.$label)
     i <- 1
@@ -88,6 +88,7 @@ plot_designs <- function(..., tbl_power_annotations = NULL) {
         }
         p_breaks <- unique(c(p_breaks[complete.cases(p_breaks)], tbl_power_annotations$p))
     }
+    p_breaks <- round(p_breaks, 2)
     p2 <- ggplot(tbl_plot) +
         aes(p, power) +
         geom_line(aes(color = design_name), alpha = .66) +
@@ -124,7 +125,7 @@ plot_designs <- function(..., tbl_power_annotations = NULL) {
             ggrepel::geom_text_repel(
                 aes(label = label_power), nudge_x = .1, nudge_y = .01, size = 2,
                 segment.color = 'darkgray', seed = 42, max.iter = 10000,
-                min.segment.length = Inf,
+                min.segment.length = min.segment.length,
                 xlim = c(0, 1), ylim = c(0, 1),
                 data = tbl_power_annotations
             ) +
@@ -150,7 +151,7 @@ plot_designs <- function(..., tbl_power_annotations = NULL) {
             ggrepel::geom_text_repel(
                 aes(label = label_ess), nudge_x = .1, nudge_y = -1, size = 2,
                 segment.color = 'darkgray', seed = 42, max.iter = 10000,
-                min.segment.length = Inf,
+                min.segment.length = min.segment.length,
                 xlim = c(0, 1),
                 data = tbl_power_annotations
             ) +
