@@ -22,6 +22,7 @@ Collate:
     'Prior.R'
     'Problem.R'
     'constraints.R'
+    'estimators.R'
     'objectives.R'
     'plot_designs.R'
     'setup.R'

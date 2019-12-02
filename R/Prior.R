@@ -19,11 +19,11 @@ condition <- function(prior, low = 0, high = 1) {
 #' @export
 weight <- function(weight, prior) {
     jprior <- JuliaCall::julia_call('*', weight, prior$jprior)
-    structure(list(jprior = jprior), class = c('MixturePrior', 'Prior', 'list'))
+    structure(list(jprior = jprior), class = c('BetaMixture', 'Prior', 'list'))
 }
 
 #' @export
 add <- function(prior1, prior2) {
     jprior <- JuliaCall::julia_call('+', prior1$jprior, prior2$jprior)
-    structure(list(jprior = jprior), class = c('MixturePrior', 'Prior', 'list'))
+    structure(list(jprior = jprior), class = c('BetaMixture', 'Prior', 'list'))
 }
