@@ -11,6 +11,13 @@ Beta <- function(a, b, low = 0, high = 1) {
 }
 
 #' @export
+JeffreysPrior <- function(design) {
+    jprior <- JuliaCall::julia_call('JeffreysPrior', design$jdesign)
+    structure(list(jprior = jprior), class = c('JeffreysPrior', 'Prior', 'list'))
+}
+
+
+#' @export
 condition <- function(prior, low = 0, high = 1) {
     jprior <- JuliaCall::julia_call('condition', prior$jprior, low = low, high = high)
     structure(list(jprior = jprior), class = c(class(prior)[1], 'Prior', 'list'))
@@ -26,4 +33,12 @@ weight <- function(weight, prior) {
 add <- function(prior1, prior2) {
     jprior <- JuliaCall::julia_call('+', prior1$jprior, prior2$jprior)
     structure(list(jprior = jprior), class = c('BetaMixture', 'Prior', 'list'))
+}
+
+
+
+#' @importFrom stats density
+#' @export
+density.Prior <- function(x, p) {
+    JuliaCall::julia_call("pdf.", p, x$jprior)
 }

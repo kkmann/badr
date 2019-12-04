@@ -65,6 +65,13 @@ expected_sample_size <- function(design, p, ...) {
     JuliaCall::julia_call('expected_sample_size.', design$jdesign, p)
 }
 
+
+#'@export
+sample_space <- function(design) {
+    JuliaCall::julia_call('sample_space', design$jdesign)
+}
+
+
 #' Convert Design-object to tibble
 #'
 #' @importFrom tibble as_tibble
@@ -81,6 +88,9 @@ as_tibble.Design <- function(design) {
         c       = c2 + x1
     )
 }
+
+
+
 
 #' Plot a design
 #'

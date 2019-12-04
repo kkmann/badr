@@ -24,6 +24,7 @@ Collate:
     'constraints.R'
     'estimators.R'
     'objectives.R'
+    'orderings.R'
     'plot_designs.R'
     'setup.R'
     'util.R'
