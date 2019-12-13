@@ -17,6 +17,17 @@ PosteriorMean <- function(prior) {
 }
 
 #'@export
+PosteriorMeanPrecalculated <- function(prior, design) {
+    jestimator <- JuliaCall::julia_call('PosteriorMeanPrecalculated',
+        prior$jprior, design$jdesign
+    )
+    structure(
+        list(jestimator = jestimator),
+        class = c('PosteriorMeanPrecalculated', 'Estimator', 'list')
+    )
+}
+
+#'@export
 RaoBlackwellEstimator <- function() {
     jestimator <- JuliaCall::julia_call('RaoBlackwellEstimator')
     structure(
@@ -30,9 +41,12 @@ RaoBlackwellEstimator <- function() {
 
 
 #'@export
-CompatibleMLE <- function(design, epsilon = 1e-8, b = 1.0, max_iter = 1e4L) {
-    jestimator <- JuliaCall::julia_call('CompatibleMLE', design$jdesign,
-                                        ϵ = epsilon, b = b, max_iter = max_iter)
+CompatibleMLE <- function(design, lambda = 1.0, epsilon = 1e-8,
+                          smoothmax_scale = 10.0, max_iter = 1e4L) {
+    jestimator <- JuliaCall::julia_call('CompatibleMLE',
+        design$jdesign, λ = lambda, ϵ = epsilon,
+        smoothmax_scale = smoothmax_scale, max_iter = max_iter
+    )
     structure(
         list(jestimator = jestimator),
         class = c('CompatibleMLE', 'Estimator', 'list')

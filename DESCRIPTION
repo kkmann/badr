@@ -23,6 +23,7 @@ Collate:
     'Problem.R'
     'constraints.R'
     'estimators.R'
+    'interval-estimators.R'
     'objectives.R'
     'orderings.R'
     'plot_designs.R'

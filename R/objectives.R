@@ -8,9 +8,9 @@ minimise_expected_sample_size <- function(prior) {
 }
 
 #' @export
-minimise_maximal_sample_size <- function() {
+minimise_maximal_sample_size <- function(lambda, prior) {
     structure(list(
-            jobjective = JuliaCall::julia_call("MiniMaxSampleSize")
+            jobjective = JuliaCall::julia_call("MiniMaxSampleSize", lambda, prior$jprior)
         ),
         class = c('MiniMaxSampleSize', 'Objective', 'list')
     )

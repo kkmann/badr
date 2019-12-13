@@ -55,6 +55,12 @@ early_efficacy.Design <- function(design) {
     JuliaCall::julia_call('early_efficacy', design$jdesign)
 }
 
+
+#' @export
+pmf <- function(design, x1, x2, p) {
+    JuliaCall::julia_call('pdf.', as.integer(x1), as.integer(x2), design$jdesign, p)
+}
+
 #'@export
 power <- function(design, p, ...) {
     JuliaCall::julia_call('power.', design$jdesign, p)
@@ -68,7 +74,15 @@ expected_sample_size <- function(design, p, ...) {
 
 #'@export
 sample_space <- function(design) {
-    JuliaCall::julia_call('sample_space', design$jdesign)
+    res           <- JuliaCall::julia_call('sample_space', design$jdesign)
+    colnames(res) <- c('x1', 'x2')
+    return(as_tibble(res))
+}
+
+
+#'@export
+reject <- function(x1, x2, design) {
+    JuliaCall::julia_call('reject_null.', as.integer(x1), as.integer(x2), design$jdesign)
 }
 
 
