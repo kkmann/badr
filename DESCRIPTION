@@ -13,20 +13,22 @@ Depends:
     tidyverse (>= 1.2.1)
 Imports:
     JuliaCall (>= 0.17.0),
-    cowplot (>= 1.0.0)
+    cowplot (>= 1.0.0),
+    ggrepel (>= 0.8.1)
 Suggests: 
     testthat (>= 2.1.0)
 RoxygenNote: 6.1.1
 Collate: 
     'Design.R'
-    'Prior.R'
     'Problem.R'
+    'scores.R'
     'constraints.R'
     'estimators.R'
     'interval-estimators.R'
     'objectives.R'
     'orderings.R'
     'plot_designs.R'
+    'priors.R'
     'setup.R'
     'util.R'
     'zzz.R'

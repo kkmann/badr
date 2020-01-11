@@ -1,34 +1,47 @@
-#'@export
-maximal_type_one_error_rate <- function(p0, alpha, k = 2L) {
-    structure(list(
-            jcnstr = JuliaCall::julia_call("maximal_type_one_error_rate", p0, alpha, k = k)
-        ), class = c('MaximalTypeOneErrorRateConstraint', 'TypeOneErrorRateConstraint', 'list')
-    )
-}
+#' Power and type-one-error-rate constraints
+#'
+#'
+#' @seealso \code{\link{Score}}, \code{\link{objectives}}
+#'
+#' @name constraints
 
-#'@export
-no_type_one_error_rate_constraint <- function(p0, alpha) {
-    structure(list(
-        jcnstr = JuliaCall::julia_call("NoTypeOneErrorRateConstraint", p0, alpha)
-    ), class = c('NoTypeOneErrorRateConstraint', 'TypeOneErrorRateConstraint', 'list')
-    )
-}
+setClass('Constraint')
 
+setClass('PowerConstraint', list(jconstraint = 'ANY'), contains = 'Constraint')
 
-#'@export
-minimal_expected_power <- function(prior, mrv, threshold,
-                                   conditional_threshold = .5,
-                                   power_curtail = .999) {
-    structure(list(
-            jcnstr = JuliaCall::julia_call("minimal_expected_power", prior$jprior, mrv, threshold, conditional_threshold = conditional_threshold, power_curtail = power_curtail)
-        ), class = c('ExpectedPowerConstraint', 'PowerConstraint', 'list')
-    )
-}
+setClass('TypeOneErrorRateConstraint', list(jconstraint = 'ANY'), contains = 'Constraint')
 
-#'@export
-no_power_constraint <- function(p1, beta) {
-    structure(list(
-            jcnstr = JuliaCall::julia_call("NoPowerConstraint", p1, beta)
-        ), class = c('NoPowerConstraint', 'PowerConstraint', 'list')
+#' @rdname constraints
+#'
+#' @param score either a score of type \code{Power} or \code{TypeOneErrorRate},
+#' see \code{\link{Score}}.
+#' @param threshold lower (Power) or upper (type one error rate) threshold for
+#' the constraint
+#' @param conditional vector of length two giving the corridor for conditional
+#' power/type one error; defaults to \code{c(.5, .99)} for power and
+#' \code{c(.001, .99)} for type one error rate. Set to c(0, 1)
+#' to deactivate completely.
+#'
+#' @include scores.R
+#'
+#' @examples
+#' toer_cnstr  <- Power(Beta(5, 7) %|% 0.2) <= 0.05 # maximal type one error rate constraint
+#' power_cnstr <- (Power(Beta(5, 7) >=  0.3) >= 0.8) %>%
+#'     conditional(c(0.25, 1.00)) # power constraint with conditional power (given x1) restricted to 25%-100%
+#'
+setMethod('>=', c('Power', 'numeric'), function(e1, e2) {
+    new( 'PowerConstraint', jconstraint = JuliaCall::julia_call('>=', e1@jscore, e2) )
+})
+
+setMethod('<=', c('Power', 'numeric'), function(e1, e2) {
+    new( 'TypeOneErrorRateConstraint', jconstraint = JuliaCall::julia_call('<=', e1@jscore, e2) )
+})
+
+#' @export
+conditional <- function(cnstr, bounds = c(0, 1)) {
+    new( class(cnstr), jconstraint = JuliaCall::julia_call('conditional',
+            cnstr@jconstraint,
+            JuliaCall::julia_call('Tuple', bounds)
+        )
     )
 }

@@ -50,3 +50,6 @@ Problem(
     no_power_constraint(.4, .15)
 ) %>%
 optimise
+
+
+adapt(design, prior, c(0, 0))

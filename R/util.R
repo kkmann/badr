@@ -1,8 +1,4 @@
 get_tbl_plot <- function(design) {
-    tibble(
-        x1 = 0:n1(design),
-        n1 = n1(design)
-    )
     as_tibble(design) %>%
         select(x1, n1, n2, c2) %>%
         group_by(x1) %>%
