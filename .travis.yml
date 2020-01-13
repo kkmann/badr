@@ -17,10 +17,10 @@ r_packages:
 before_install:
   - sudo sudo apt install julia
 
+script:
+  - Rscript -e 'library(badr); setup()'
+  - R CMD build .
+  - R CMD check *tar.gz
+
 after_success:
   - Rscript -e 'library(covr); covr::codecov()'
-
-deploy:
-  provider: script
-  script: Rscript -e 'pkgdown::deploy_site_github()'
-  skip_cleanup: true
