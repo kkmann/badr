@@ -20,9 +20,10 @@ before_install:
 
 script:
   - set -e
-  - Rscript -e 'library(badr); setup()'
   - R CMD build .
-  - R CMD check --as-cran *tar.gz
+  - R CMD INSTALL *.tar.gz
+  - Rscript -e 'badr::setup()'
+  - R CMD check --as-cran *.tar.gz
 
 after_success:
   - Rscript -e 'library(covr); covr::codecov()'

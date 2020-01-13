@@ -126,6 +126,7 @@ reject <- function(x1, x2, design) {
 #' @rdname Design
 #'
 #' @importFrom tibble as_tibble
+#' @importFrom rlang .data
 #' @export
 as_tibble.Design <- function(x, ...) {
     design <- x
@@ -133,11 +134,11 @@ as_tibble.Design <- function(x, ...) {
         label   = design@label,
         n1      = rep(sample_size(design), sample_size(design) + 1),
         x1      = seq(0, sample_size(design)),
-        `x1/n1` = x1/n1,
-        n2      = sample_size(design, x1) - n1,
-        c2      = critical_value(design, x1),
-        n       = sample_size(design, x1),
-        c       = c2 + x1
+        `x1/n1` = .data$x1/.data$n1,
+        n2      = sample_size(design, .data$x1) - .data$n1,
+        c2      = critical_value(design, .data$x1),
+        n       = sample_size(design, .data$x1),
+        c       = .data$c2 + .data$x1
     )
 }
 
