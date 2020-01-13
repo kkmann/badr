@@ -23,12 +23,13 @@ adapt(design, prior, partial, verbosity = 3, timelimit = 180, ...)
 Adapt an existing design
 }
 \examples{
-prior   <- Beta(5, 7)
-problem <- Problem(
-    minimise(SampleSize(prior)),
-    Power(prior \%|\% 0.2) <= 0.05,
-    Power(prior  >= 0.3) >= 0.80
-)
-design <- optimise_design(problem)
-
+\donttest{
+  prior   <- Beta(5, 7)
+  problem <- Problem(
+      minimise(SampleSize(prior)),
+      Power(prior \%|\% 0.2) <= 0.05,
+      Power(prior  >= 0.3) >= 0.80
+  )
+  design <- optimise_design(problem)
+}
 }

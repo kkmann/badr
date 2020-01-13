@@ -1,7 +1,7 @@
 #'@export
 ClopperPearsonInterval <- function(ordering, design, alpha, epsilon = 1e-6) {
     jinterval <- JuliaCall::julia_call('ClopperPearsonInterval',
-        ordering$jordering, design$jdesign, alpha, ϵ = epsilon
+        ordering$jordering, design$jdesign, alpha, "\U003F5" = epsilon
     )
     structure(
         list(jinterval = jinterval),

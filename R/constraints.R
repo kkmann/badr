@@ -25,10 +25,11 @@ setClass('TypeOneErrorRateConstraint', list(jconstraint = 'ANY'), contains = 'Co
 #' @include scores.R
 #'
 #' @examples
-#' toer_cnstr  <- Power(Beta(5, 7) %|% 0.2) <= 0.05 # maximal type one error rate constraint
-#' power_cnstr <- (Power(Beta(5, 7) >=  0.3) >= 0.8) %>%
+#' \donttest{
+#'   toer_cnstr  <- Power(Beta(5, 7) %|% 0.2) <= 0.05 # maximal type one error rate constraint
+#'   power_cnstr <- (Power(Beta(5, 7) >=  0.3) >= 0.8) %>%
 #'     conditional(c(0.25, 1.00)) # power constraint with conditional power (given x1) restricted to 25%-100%
-#'
+#' }
 setMethod('>=', c('Power', 'numeric'), function(e1, e2) {
     new( 'PowerConstraint', jconstraint = JuliaCall::julia_call('>=', e1@jscore, e2) )
 })

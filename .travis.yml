@@ -15,12 +15,14 @@ r_packages:
   - pkgdown
 
 before_install:
+  - set -e
   - sudo sudo apt install julia
 
 script:
+  - set -e
   - Rscript -e 'library(badr); setup()'
   - R CMD build .
-  - R CMD check *tar.gz
+  - R CMD check --as-cran *tar.gz
 
 after_success:
   - Rscript -e 'library(covr); covr::codecov()'

@@ -33,14 +33,15 @@ Problem <- function(objective, toer, power, label = '', unimodal = FALSE, ...) {
 #' @param ... optional arguments
 #'
 #' @examples
-#' prior   <- Beta(5, 7)
-#' problem <- Problem(
-#'     minimise(SampleSize(prior)),
-#'     Power(prior %|% 0.2) <= 0.05,
-#'     Power(prior  >= 0.3) >= 0.80
-#' )
-#' design <- optimise_design(problem)
-#'
+#' \donttest{
+#'   prior   <- Beta(5, 7)
+#'   problem <- Problem(
+#'       minimise(SampleSize(prior)),
+#'       Power(prior %|% 0.2) <= 0.05,
+#'       Power(prior  >= 0.3) >= 0.80
+#'   )
+#'   design <- optimise_design(problem)
+#' }
 #' @export
 optimise_design <- function(problem, verbosity = 3, timelimit = 180, ...) {
     new('Design', jdesign = JuliaCall::julia_call('optimise',
@@ -61,14 +62,15 @@ optimise_design <- function(problem, verbosity = 3, timelimit = 180, ...) {
 #' @param ... optional arguments
 #'
 #' @examples
-#' prior   <- Beta(5, 7)
-#' problem <- Problem(
-#'     minimise(SampleSize(prior)),
-#'     Power(prior %|% 0.2) <= 0.05,
-#'     Power(prior  >= 0.3) >= 0.80
-#' )
-#' design <- optimise_design(problem)
-#'
+#' \donttest{
+#'   prior   <- Beta(5, 7)
+#'   problem <- Problem(
+#'       minimise(SampleSize(prior)),
+#'       Power(prior %|% 0.2) <= 0.05,
+#'       Power(prior  >= 0.3) >= 0.80
+#'   )
+#'   design <- optimise_design(problem)
+#' }
 #' @export
 adapt <- function(design, prior, partial, verbosity = 3, timelimit = 180, ...) {
     partial <- JuliaCall::julia_call('Tuple', as.integer(partial))

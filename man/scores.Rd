@@ -9,8 +9,7 @@
 \usage{
 evaluate(score, design, ...)
 
-\S4method{evaluate}{Score,Design}(score, design, x1 = NULL,
-  partial = c(0, 0))
+\S4method{evaluate}{Score,Design}(score, design, x1 = NULL, partial = c(0, 0))
 }
 \arguments{
 \item{score}{\code{Score} object to evaluate}

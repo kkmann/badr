@@ -3,7 +3,6 @@
 \docType{package}
 \name{badr}
 \alias{badr}
-\alias{badr-package}
 \title{badr}
 \description{
 [todo]

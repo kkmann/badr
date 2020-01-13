@@ -14,12 +14,13 @@ this \code{\link{Score}} measures the expected sample size of a design
 under a specified \code{\link{Prior}}.
 }
 \examples{
-design <- Design(c(0, 25, 20, 11, 0, 0, 0), c(Inf, 10, 8, 6, -Inf, -Inf, -Inf))
-ess    <- SampleSize(Beta(5, 7))
-evaluate(ess, design) # unconditional expected sample size
-evaluate(ess, x1 = 1) # conditional sample size given X1 = 1 ( = 6 + 25 = 31)
-evaluate(ess, design, partial = c(2, 3)) # expected sample size given 2 responses out of 3 observations (in stage one)
-
+\donttest{
+  design <- Design(c(0, 25, 20, 11, 0, 0, 0), c(Inf, 10, 8, 6, -Inf, -Inf, -Inf))
+  ess    <- SampleSize(Beta(5, 7))
+  evaluate(ess, design) # unconditional expected sample size
+  evaluate(ess, x1 = 1) # conditional sample size given X1 = 1 ( = 6 + 25 = 31)
+  evaluate(ess, design, partial = c(2, 3)) # expected sample size given 2 responses out of 3 observations (in stage one)
+}
 }
 \seealso{
 \code{\link{Prior}}, \code{\link{Score}}

@@ -33,16 +33,17 @@ setGeneric('condition', function(prior, low = 0, high = 1) standardGeneric('cond
 #' @rdname condition
 #'
 #' @examples
-#' condition(Beta(2, 3), low = 0.2)
-#' condition(Beta(2, 3), high = 0.9)
-#' condition(Beta(2, 3), low = 0.2, high = 0.9)
+#' \donttest{
+#'   condition(Beta(2, 3), low = 0.2)
+#'   condition(Beta(2, 3), high = 0.9)
+#'   condition(Beta(2, 3), low = 0.2, high = 0.9)
 #'
-#' Beta(5, 7) %|% c(0.2, 0.7) # shorthand for conditioning on interval
-#' Beta(5, 7) %|% 0.5 # condition on single point
+#'   Beta(5, 7) %|% c(0.2, 0.7) # shorthand for conditioning on interval
+#'   Beta(5, 7) %|% 0.5 # condition on single point
 #'
-#' Beta(5, 7) <= 0.5 # = condition(Beta(5, 7), high = 0.5)
-#' 0.2 <= Beta(5, 7) # = condition(Beta(5, 7), low = 0.2)
-#'
+#'   Beta(5, 7) <= 0.5 # = condition(Beta(5, 7), high = 0.5)
+#'   0.2 <= Beta(5, 7) # = condition(Beta(5, 7), low = 0.2)
+#' }
 setMethod('condition', c('Prior'), function(prior, low = 0, high = 1) {
     new(as.character(class(prior)),
         jprior = JuliaCall::julia_call('condition', prior@jprior, low = low, high = high)
@@ -69,8 +70,9 @@ setMethod('>=', c('Prior', 'numeric'), function(e1, e2) condition(e1, low = e2, 
 #' @param x \code{Prior} distribution object (\code{density})
 #'
 #' @examples
-#' density(Beta(1, 1), seq(0, 1, .1)) == 1 # uniform distribution on [0, 1]
-#'
+#' \donttest{
+#'   density(Beta(1, 1), seq(0, 1, .1)) == 1 # uniform distribution on [0, 1]
+#' }
 #' @rdname Prior
 #'
 #' @export
@@ -84,16 +86,18 @@ setMethod('density', c('Prior'), function(x, p) JuliaCall::julia_call('pdf.', p,
 setGeneric('cdf', function(prior, p, ...) standardGeneric('cdf'))
 
 #' @examples
-#' cdf(PointMass(1/3), c(0.3, 1/3)) == c(0, 1)
-#'
+#' \donttest{
+#'   cdf(PointMass(1/3), c(0.3, 1/3)) == c(0, 1)
+#' }
 #' @rdname Prior
 #'
 #' @export
 setMethod('cdf', c('Prior', 'numeric'), function(prior, p) JuliaCall::julia_call('cdf.', p, prior@jprior) )
 
 #' @examples
-#' mean(Beta(5, 7)) == 5/(5 + 7)
-#'
+#' \donttest{
+#'   mean(Beta(5, 7)) == 5/(5 + 7)
+#' }
 #' @rdname Prior
 #'
 #' @export
@@ -107,8 +111,9 @@ setClass('PointMass', slots = list(jprior = 'ANY'), contains = 'Prior')
 #' almost surely.
 #'
 #' @examples
-#' PointMass(0.4)
-#'
+#' \donttest{
+#'   PointMass(0.4)
+#' }
 #' @rdname Prior
 #'
 #' @export
@@ -147,9 +152,10 @@ setClass("Beta", slots = c(jprior = "ANY"), contains = "Prior")
 #' @param b Beta distribution paramter
 #'
 #' @examples
-#' Beta(5, 7)
-#' 1/3*Beta(5, 7) + 2/3*Beta(1,1) # create a BetaMixture distribution
-#'
+#' \donttest{
+#'   Beta(5, 7)
+#'   1/3*Beta(5, 7) + 2/3*Beta(1,1) # create a BetaMixture distribution
+#'  }
 #' @rdname Prior
 #'
 #' @export
@@ -216,9 +222,10 @@ setClass("JeffreysPrior", slots = c(jprior = "ANY"), contains = 'Prior')
 #' @param design \code{\link{Design}} object
 #'
 #' @examples
-#' design <- Design(c(0, 30, 25, 0), c(Inf, 10, 7, -Inf))
-#' JeffreysPrior(design)
-#'
+#' \donttest{
+#'   design <- Design(c(0, 30, 25, 0), c(Inf, 10, 7, -Inf))
+#'   JeffreysPrior(design)
+#' }
 #' @export
 JeffreysPrior <- function(design) new('JeffreysPrior',
     jprior = JuliaCall::julia_call('JeffreysPrior', design@jdesign)
@@ -227,11 +234,12 @@ JeffreysPrior <- function(design) new('JeffreysPrior',
 #' @rdname updating
 #'
 #' @examples
-#' design    <- Design(c(0, 30, 25, 0), c(Inf, 10, 7, -Inf))
-#' prior     <- JeffreysPrior(design)
-#' posterior <- update(prior, 3, 10) # results in a GenericDistribution object (no analytical update)
-#' update(posterior, 2, 5) # the generic posterior of a Jeffreys prior can also be updated again
-#'
+#' \donttest{
+#'   design    <- Design(c(0, 30, 25, 0), c(Inf, 10, 7, -Inf))
+#'   prior     <- JeffreysPrior(design)
+#'   posterior <- update(prior, 3, 10) # results in a GenericDistribution object (no analytical update)
+#'   update(posterior, 2, 5) # the generic posterior of a Jeffreys prior can also be updated again
+#' }
 #' @export
 setMethod('update', c('JeffreysPrior'), function(object, x, n) new('GenericDistribution',
     jprior = JuliaCall::julia_call('update', object@jprior, as.integer(x), as.integer(n))

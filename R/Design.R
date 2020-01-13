@@ -127,7 +127,8 @@ reject <- function(x1, x2, design) {
 #'
 #' @importFrom tibble as_tibble
 #' @export
-as_tibble.Design <- function(design) {
+as_tibble.Design <- function(x, ...) {
+    design <- x
     tibble::tibble(
         label   = design@label,
         n1      = rep(sample_size(design), sample_size(design) + 1),
@@ -145,7 +146,8 @@ as_tibble.Design <- function(design) {
 #' @importFrom ggrepel geom_text_repel
 #' @importFrom cowplot plot_grid
 #' @export
-plot.Design <- function(design, tbl_power_annotations = NULL, ...) {
+plot.Design <- function(x, tbl_power_annotations = NULL, ...) {
+    design <- x
     tbl_plot <- get_tbl_plot(design)
     n1       <- sample_size(design)
     p1 <- ggplot(tbl_plot) +

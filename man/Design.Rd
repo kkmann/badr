@@ -40,12 +40,11 @@ sample_space(design)
 
 reject(x1, x2, design)
 
-\method{as_tibble}{Design}(design)
+\method{as_tibble}{Design}(x, ...)
 
-\method{plot}{Design}(design, tbl_power_annotations = NULL, ...)
+\method{plot}{Design}(x, tbl_power_annotations = NULL, ...)
 
-plot_designs(..., tbl_power_annotations = NULL,
-  min.segment.length = Inf)
+plot_designs(..., tbl_power_annotations = NULL, min.segment.length = Inf)
 }
 \arguments{
 \item{n2}{numeric vector with stage-two sample sizes for x1 = 0, 1, ..., n1}
@@ -63,16 +62,12 @@ the design rejects H0: p <= p0 iff X2 > c_2(X1); use +/- Inf for early futility/
 
 \item{p}{response probability}
 
+\item{...}{one ore more \code{Design} objects to plot}
+
 \item{tbl_power_annotations}{a \code{\link{tibble}} with annotation data for
 plotted in the expected sample size and power plots.}
 
-\item{...}{one ore more \code{Design} objects to plot}
-
 \item{min.segment.length}{passed on to ggrepel}
-
-\item{x2}{stage-two number of responses}
-
-\item{p}{response probability}
 }
 \description{
 [todo]

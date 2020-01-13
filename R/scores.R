@@ -48,12 +48,13 @@ setClass('SampleSize', list(jscore = 'ANY'), contains = 'Score')
 #' @seealso \code{\link{Prior}}, \code{\link{Score}}
 #'
 #' @examples
-#' design <- Design(c(0, 25, 20, 11, 0, 0, 0), c(Inf, 10, 8, 6, -Inf, -Inf, -Inf))
-#' ess    <- SampleSize(Beta(5, 7))
-#' evaluate(ess, design) # unconditional expected sample size
-#' evaluate(ess, x1 = 1) # conditional sample size given X1 = 1 ( = 6 + 25 = 31)
-#' evaluate(ess, design, partial = c(2, 3)) # expected sample size given 2 responses out of 3 observations (in stage one)
-#'
+#' \donttest{
+#'   design <- Design(c(0, 25, 20, 11, 0, 0, 0), c(Inf, 10, 8, 6, -Inf, -Inf, -Inf))
+#'   ess    <- SampleSize(Beta(5, 7))
+#'   evaluate(ess, design) # unconditional expected sample size
+#'   evaluate(ess, x1 = 1) # conditional sample size given X1 = 1 ( = 6 + 25 = 31)
+#'   evaluate(ess, design, partial = c(2, 3)) # expected sample size given 2 responses out of 3 observations (in stage one)
+#' }
 #' @export
 SampleSize <- function(prior) {
     new('SampleSize', jscore = JuliaCall::julia_call('SampleSize', prior@jprior) )
@@ -74,16 +75,17 @@ setClass('Power', list(jscore = 'ANY'), contains = 'Score')
 #' @seealso \code{\link{Prior}}, \code{\link{Score}}
 #'
 #' @examples
-#' design <- Design(c(0, 25, 20, 11, 0, 0, 0), c(Inf, 10, 8, 6, -Inf, -Inf, -Inf))
-#' power  <- Power(Beta(5, 7) >= 0.3)
-#' evaluate(power, design) # unconditional expected power
-#' evaluate(power, design, partial = c(2, 4)) # expected power given 2 out of 4 responses in stage one
-#' evaluate(power, design, x1 = 1) # expected power given 1 stage-one response
-#' evaluate(power, design, x1 = 1, partial = c(8, 12)) # expected power given 1 stage one response and 8 out of 12 stage two responses
+#' \donttest{
+#'   design <- Design(c(0, 25, 20, 11, 0, 0, 0), c(Inf, 10, 8, 6, -Inf, -Inf, -Inf))
+#'   power  <- Power(Beta(5, 7) >= 0.3)
+#'   evaluate(power, design) # unconditional expected power
+#'   evaluate(power, design, partial = c(2, 4)) # expected power given 2 out of 4 responses in stage one
+#'   evaluate(power, design, x1 = 1) # expected power given 1 stage-one response
+#'   evaluate(power, design, x1 = 1, partial = c(8, 12)) # expected power given 1 stage one response and 8 out of 12 stage two responses
 #'
-#' utility <- 80*Power(Beta(5, 7) >= 0.3) - SampleSize(Beta(5, 7))
-#' evaluate(utility, design)
-#'
+#'   utility <- 80*Power(Beta(5, 7) >= 0.3) - SampleSize(Beta(5, 7))
+#'   evaluate(utility, design)
+#' }
 #' @export
 Power <- function(prior, bounds = NULL) {
     bounds <- if (is.null(bounds)) JuliaCall::julia_call('bounds', prior@jprior) else bounds
