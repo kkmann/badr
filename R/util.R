@@ -20,7 +20,8 @@ get_tbl_plot <- function(design) {
         )
 }
 
-#' @export
+
+
 binomial_test <- function(alpha, beta, p0, p1) {
     z_1_a   <- qnorm(1 - alpha)
     z_1_b   <- qnorm(1 - beta)

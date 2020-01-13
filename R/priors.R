@@ -139,7 +139,10 @@ NULL
 #' @rdname updating
 #'
 #' @examples
-#' update(PointMass(.4), 3, 10) # point mass distributions are invariant under updating
+#' \donttest{
+#'   # point mass distributions are invariant under updating
+#'   update(PointMass(.4), 3, 10)
+#' }
 #'
 #' @export
 setMethod('update', c('PointMass'), function(object, x, n) object)
@@ -164,7 +167,9 @@ Beta <- function(a, b) new('Beta', jprior = JuliaCall::julia_call('Beta', a, b))
 #' @rdname updating
 #'
 #' @examples
-#' update(Beta(5, 7), 3, 10) # same as Beta(8, 14)
+#' \donttest{
+#'   update(Beta(5, 7), 3, 10) # same as Beta(8, 14)
+#' }
 #'
 #' @export
 setMethod('update', c('Beta'), function(object, x, n) new('Beta',
@@ -178,8 +183,9 @@ setClass("BetaMixture", slots = c(jprior = "ANY"), contains = 'Prior')
 #' @rdname updating
 #'
 #' @examples
-#' update(1/3*Beta(5, 7) + 2/3*Beta(1,1), 3, 10) # update mixtures
-#'
+#' \donttest{
+#'   update(1/3*Beta(5, 7) + 2/3*Beta(1,1), 3, 10) # update mixtures
+#' }
 #' @export
 setMethod('update', c('BetaMixture'), function(object, x, n) new('BetaMixture',
     jprior = JuliaCall::julia_call('update', object@jprior, as.integer(x), as.integer(n))

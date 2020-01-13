@@ -32,12 +32,18 @@ All prior distributions described in \code{\link{Prior}} can be updated with
 binomial observations (\code{x} out of \code{n} responses).
 }
 \examples{
-update(PointMass(.4), 3, 10) # point mass distributions are invariant under updating
+\donttest{
+  # point mass distributions are invariant under updating
+  update(PointMass(.4), 3, 10)
+}
 
-update(Beta(5, 7), 3, 10) # same as Beta(8, 14)
+\donttest{
+  update(Beta(5, 7), 3, 10) # same as Beta(8, 14)
+}
 
-update(1/3*Beta(5, 7) + 2/3*Beta(1,1), 3, 10) # update mixtures
-
+\donttest{
+  update(1/3*Beta(5, 7) + 2/3*Beta(1,1), 3, 10) # update mixtures
+}
 \donttest{
   design    <- Design(c(0, 30, 25, 0), c(Inf, 10, 7, -Inf))
   prior     <- JeffreysPrior(design)

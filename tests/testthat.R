@@ -1,5 +1,6 @@
 library(testthat)
 library(badr)
 
-badr::setup()
+setup_julia_package()
+load_julia_package()
 test_check("badr")
