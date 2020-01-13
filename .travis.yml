@@ -28,7 +28,7 @@ script:
   - set -e
   - R CMD build .
   - R CMD INSTALL *.tar.gz
-  - Rscript -e 'badr::setup()'
+  - Rscript -e 'badr::setup_julia_package()'
   - R CMD check --as-cran *.tar.gz
 
 after_success:
