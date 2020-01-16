@@ -21,7 +21,16 @@ get_tbl_plot <- function(design) {
 }
 
 
-
+#' Single-stage binomial test
+#'
+#' Calculate sample size and critical value for a single-stage binomial test.
+#'
+#' @param alpha maximal type one error rate
+#' @param beta maximal type two error rate
+#' @param p0 boundary of the null hypothesis
+#' @param p1 point alternative
+#'
+#' @export
 binomial_test <- function(alpha, beta, p0, p1) {
     z_1_a   <- qnorm(1 - alpha)
     z_1_b   <- qnorm(1 - beta)

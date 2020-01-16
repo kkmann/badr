@@ -30,7 +30,7 @@ Collate:
     'interval-estimators.R'
     'objectives.R'
     'orderings.R'
-    'plot_designs.R'
+    'plots.R'
     'priors.R'
     'setup.R'
     'util.R'
