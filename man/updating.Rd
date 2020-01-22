@@ -32,19 +32,19 @@ All prior distributions described in \code{\link{Prior}} can be updated with
 binomial observations (\code{x} out of \code{n} responses).
 }
 \examples{
-\donttest{
+\dontrun{
   # point mass distributions are invariant under updating
   update(PointMass(.4), 3, 10)
 }
 
-\donttest{
+\dontrun{
   update(Beta(5, 7), 3, 10) # same as Beta(8, 14)
 }
 
-\donttest{
+\dontrun{
   update(1/3*Beta(5, 7) + 2/3*Beta(1,1), 3, 10) # update mixtures
 }
-\donttest{
+\dontrun{
   design    <- Design(c(0, 30, 25, 0), c(Inf, 10, 7, -Inf))
   prior     <- JeffreysPrior(design)
   posterior <- update(prior, 3, 10) # results in a GenericDistribution object (no analytical update)

@@ -8,6 +8,7 @@
 \alias{mean,Prior-method}
 \alias{PointMass}
 \alias{Beta}
+\alias{Beta_mu_sd}
 \alias{JeffreysPrior}
 \title{Prior distributions for response probability}
 \usage{
@@ -23,6 +24,8 @@ PointMass(p)
 
 Beta(a, b)
 
+Beta_mu_sd(mu, sd)
+
 JeffreysPrior(design)
 }
 \arguments{
@@ -37,6 +40,10 @@ almost surely.}
 
 \item{b}{Beta distribution paramter}
 
+\item{mu}{mean parameter}
+
+\item{sd}{standard deviation paramter}
+
 \item{design}{\code{\link{Design}} object}
 }
 \description{
@@ -47,23 +54,28 @@ available via \code{density} and \code{cdf} methods.
 The mean of a distribution can quickly be accessed via \code{mean}.
 }
 \examples{
-\donttest{
+badr::load_julia_package()
+
+\dontrun{
   density(Beta(1, 1), seq(0, 1, .1)) == 1 # uniform distribution on [0, 1]
 }
-\donttest{
+\dontrun{
   cdf(PointMass(1/3), c(0.3, 1/3)) == c(0, 1)
 }
-\donttest{
+\dontrun{
   mean(Beta(5, 7)) == 5/(5 + 7)
 }
-\donttest{
+\dontrun{
   PointMass(0.4)
 }
-\donttest{
+\dontrun{
   Beta(5, 7)
   1/3*Beta(5, 7) + 2/3*Beta(1,1) # create a BetaMixture distribution
- }
-\donttest{
+}
+\dontrun{
+  Beta_mu_sd(.3, .2)
+}
+\dontrun{
   design <- Design(c(0, 30, 25, 0), c(Inf, 10, 7, -Inf))
   JeffreysPrior(design)
 }

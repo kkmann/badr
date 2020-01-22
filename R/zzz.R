@@ -11,6 +11,7 @@ NULL
 #' @export
 load_julia_package <- function(libname, pkgname){
     tryCatch({
+        JuliaCall::julia_setup(verbose = FALSE, install = FALSE, useRCall = FALSE)
         JuliaCall::julia_command('using bad')
         packageStartupMessage("Loaded julia package 'bad' successfully.")
     }, error = function(e) {

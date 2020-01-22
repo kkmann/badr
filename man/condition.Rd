@@ -29,17 +29,17 @@ intervals, or single values to restrict their support.
 Various shorthand notations are supported (see examples).
 }
 \examples{
-\donttest{
-  condition(Beta(2, 3), low = 0.2)
-  condition(Beta(2, 3), high = 0.9)
-  condition(Beta(2, 3), low = 0.2, high = 0.9)
+badr::load_julia_package()
 
-  Beta(5, 7) \%|\% c(0.2, 0.7) # shorthand for conditioning on interval
-  Beta(5, 7) \%|\% 0.5 # condition on single point
+condition(Beta(2, 3), low = 0.2)
+condition(Beta(2, 3), high = 0.9)
+condition(Beta(2, 3), low = 0.2, high = 0.9)
 
-  Beta(5, 7) <= 0.5 # = condition(Beta(5, 7), high = 0.5)
-  0.2 <= Beta(5, 7) # = condition(Beta(5, 7), low = 0.2)
-}
+Beta(5, 7) \%|\% c(0.2, 0.7) # shorthand for conditioning on interval
+Beta(5, 7) \%|\% 0.5 # condition on single point
+
+Beta(5, 7) <= 0.5 # = condition(Beta(5, 7), high = 0.5)
+0.2 <= Beta(5, 7) # = condition(Beta(5, 7), low = 0.2)
 }
 \seealso{
 \code{\link{Prior}}, \code{\link{updating}} for Bayesian updating

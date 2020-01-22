@@ -16,12 +16,15 @@ design_simon2 <- Design(
     label = "B"
 )
 design_simon3 <- Design(
-    c(rep(0, 4), rep(30, 10)),
-    c(rep(Inf, 4), rep(12, 10) - seq(4, 13)),
+    c(rep(0, 4), rep(30, 15)),
+    c(rep(Inf, 4), rep(12, 15) - seq(4, 18)),
     label = "C"
 )
 
 plot_compare_designs(design_simon, annotations = c(.245, .5))
+
+
+plot_designs(design_simon, design_simon2, design_simon3)
 
 plot_compare_designs(design_simon, design_simon2, design_simon3,
     annotations = c(.245, .5),

@@ -35,7 +35,7 @@ fix_p_breaks <- function(annotations, threshold = .15) {
 #'
 #' @include Design.R
 #' @export
-plot_designs <- function(..., textsize = 2, ystep = 10, yexpandlower = .1,
+plot_designs <- function(..., textsize = 1.75, ystep = 10, yexpandlower = .1,
                          skip_listing = NULL) {
 
     designs    <- fix_design_names(...)
@@ -58,16 +58,18 @@ plot_designs <- function(..., textsize = 2, ystep = 10, yexpandlower = .1,
             size = textsize, lineheight = .8, vjust = 1) +
         scale_y_continuous("", breaks = seq(0, 1000, by = ystep),
                            expand = expand_scale(mult = c(yexpandlower, .05))) +
-        facet_wrap(~label, nrow = 1, scales = 'free_x',
+        scale_x_continuous(expression(x[1]), breaks = seq(0, 1000, by = 5)) +
+        facet_grid(1 ~ label, scales = 'free_x', space = "free_x",
                    labeller = label_bquote(
-                       .(label) ~ (n[1] == .(.dummy[.dummy$label == label, ]$n1[[1]]))
+                       cols = .(label) ~ (n[1] == .(.dummy[.dummy$label == label, ]$n1[[1]]))
                    )
         ) +
-        labs(x = expression(x[1])) +
         theme_bw() +
         theme(
             panel.grid = element_blank(),
-            plot.margin        = margin(.1, .75, .1, .75, 'lines'),
+            plot.margin        = margin(.1, .75, .1, .1, 'lines'),
+            strip.background.y = element_blank(),
+            strip.text.y       = element_blank()
         )
 
     return(plt)
@@ -83,7 +85,7 @@ plot_designs <- function(..., textsize = 2, ystep = 10, yexpandlower = .1,
 #' @include Design.R
 #' @export
 plot_power <- function(...,  annotations = NULL, min.segment.length = Inf,
-                       annotation_text_size = 2) {
+                       annotation_text_size = 1.5) {
 
     designs  <- fix_design_names(...)
     tbl_plot <- map(
@@ -163,7 +165,7 @@ plot_ess <- function(...,  annotations = NULL, min.segment.length = Inf,
     plt <- ggplot(tbl_plot) +
         aes(p, ess) +
         geom_line(aes(linetype = design_name), color = 'darkgray', size = .5) +
-        scale_y_continuous("ESS") +
+        scale_y_continuous("ESS", limits = c(0, NA_real_)) +
         scale_x_continuous("response probability", breaks = p_breaks, expand = c(0, 0)) +
         scale_linetype_discrete("") +
         theme_bw() +
@@ -222,7 +224,7 @@ plot_ess <- function(...,  annotations = NULL, min.segment.length = Inf,
 plot_compare_designs <- function(...,
         annotations = NULL, min.segment.length = Inf,
         annotation_text_size = 2,
-        args_design_plot = list(textsize = 2, ystep = 10),
+        args_design_plot = list(textsize = 1.75, ystep = 10),
         args_power_plot  = list(
             annotations = annotations,
             min.segment.length = min.segment.length,
@@ -241,26 +243,16 @@ plot_compare_designs <- function(...,
     plt_power   <- do.call(plot_power, args = c(designs, args_power_plot))
     plt_ess     <- do.call(plot_ess, args = c(designs, args_ess_plot))
 
-    if (length(designs) == 1) {
+    cowplot::plot_grid(
+        plt_designs + theme(legend.position = 'none'),
+        cowplot::get_legend(plt_power),
         cowplot::plot_grid(
-            plt_designs + theme(legend.position = 'none'),
             plt_power + theme(legend.position = 'none'),
-            plt_ess + theme(legend.position = 'none'),
-            nrow = 1,
-            rel_widths = c(1, 1, 1)
-        )
-    } else {
-        cowplot::plot_grid(
-            plt_designs + theme(legend.position = 'none'),
-            cowplot::get_legend(plt_power),
-            cowplot::plot_grid(
-                plt_power + theme(legend.position = 'none'),
-                plt_ess + theme(legend.position = 'none')
-            ),
-            ncol = 1,
-            rel_heights = c(1.33, .2, 1)
-        )
-    }
+            plt_ess + theme(legend.position = 'none')
+        ),
+        ncol = 1,
+        rel_heights = c(1, .15, 1)
+    )
 
 }
 

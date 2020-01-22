@@ -47,21 +47,21 @@ critical_value <- function(design, x1) {
 #'
 #' @export
 futility_region <- function(design) {
-    JuliaCall::julia_call('futility_region', design$jdesign)
+    JuliaCall::julia_call('futility_region', design@jdesign)
 }
 
 #' @rdname Design
 #'
 #' @export
 efficacy_region <- function(design) {
-    JuliaCall::julia_call('efficacy_region', design$jdesign)
+    JuliaCall::julia_call('efficacy_region', design@jdesign)
 }
 
 #' @rdname Design
 #'
 #' @export
 continuation_region <- function(design) {
-    JuliaCall::julia_call('continuation_region', design$jdesign)
+    JuliaCall::julia_call('continuation_region', design@jdesign)
 }
 
 #' @rdname Design
@@ -71,7 +71,7 @@ continuation_region <- function(design) {
 #'
 #' @export
 pmf <- function(design, x1, x2, p) {
-    JuliaCall::julia_call('pmf.', as.integer(x2), sample_size(design, x1), p) *
+    JuliaCall::julia_call('pmf.', as.integer(x2), sample_size(design, x1) - sample_size(design), p) *
     JuliaCall::julia_call('pmf.', as.integer(x1), sample_size(design), p)
 }
 
@@ -110,7 +110,7 @@ expected_sample_size <- Vectorize(expected_sample_size, vectorize.args = c('p'))
 #'
 #'@export
 sample_space <- function(design) {
-    res           <- JuliaCall::julia_call('sample_space', design$jdesign)
+    res           <- JuliaCall::julia_call('sample_space', design@jdesign)
     colnames(res) <- c('x1', 'x2')
     return(as_tibble(res))
 }
@@ -119,7 +119,7 @@ sample_space <- function(design) {
 #'
 #' @export
 reject <- function(x1, x2, design) {
-    JuliaCall::julia_call('reject.', as.integer(x1), as.integer(x2), design$jdesign)
+    JuliaCall::julia_call('reject.', as.integer(x1), as.integer(x2), design@jdesign)
 }
 
 

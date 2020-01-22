@@ -1,7 +1,7 @@
 #'@export
 ClopperPearsonInterval <- function(ordering, design, alpha, epsilon = 1e-6) {
     jinterval <- JuliaCall::julia_call('ClopperPearsonInterval',
-        ordering$jordering, design$jdesign, alpha, "\U003F5" = epsilon
+        ordering$jordering, design@jdesign, alpha, "\U003F5" = epsilon
     )
     structure(
         list(jinterval = jinterval),
@@ -12,7 +12,7 @@ ClopperPearsonInterval <- function(ordering, design, alpha, epsilon = 1e-6) {
 #'@export
 PosteriorCredibleInterval <- function(prior, design, alpha) {
     jinterval <- JuliaCall::julia_call('PosteriorCredibleInterval',
-        prior$jprior, design$jdesign, alpha
+        prior@jprior, design@jdesign, alpha
     )
     structure(
         list(jinterval = jinterval),

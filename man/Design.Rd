@@ -49,7 +49,7 @@ reject(x1, x2, design)
 
 plot_designs(
   ...,
-  textsize = 2,
+  textsize = 1.75,
   ystep = 10,
   yexpandlower = 0.1,
   skip_listing = NULL
@@ -59,7 +59,7 @@ plot_power(
   ...,
   annotations = NULL,
   min.segment.length = Inf,
-  annotation_text_size = 2
+  annotation_text_size = 1.5
 )
 
 plot_ess(
@@ -74,7 +74,7 @@ plot_compare_designs(
   annotations = NULL,
   min.segment.length = Inf,
   annotation_text_size = 2,
-  args_design_plot = list(textsize = 2, ystep = 10),
+  args_design_plot = list(textsize = 1.75, ystep = 10),
   args_power_plot = list(annotations = annotations, min.segment.length =
     min.segment.length, annotation_text_size = annotation_text_size),
   args_ess_plot = list(annotations = annotations, min.segment.length =

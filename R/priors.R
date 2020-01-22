@@ -9,6 +9,9 @@
 #' @seealso \code{\link{condition}} for restricting the support of a prior,
 #' \code{\link{updating}} for Bayesian posterior updates
 #'
+#' @examples
+#' badr::load_julia_package()
+#'
 #' @name Prior
 NULL
 
@@ -27,23 +30,24 @@ setClass('Prior')
 #'
 #' @seealso \code{\link{Prior}}, \code{\link{updating}} for Bayesian updating
 #'
+#' @examples
+#' badr::load_julia_package()
+#'
 #' @export
 setGeneric('condition', function(prior, low = 0, high = 1) standardGeneric('condition'))
 
 #' @rdname condition
 #'
 #' @examples
-#' \donttest{
-#'   condition(Beta(2, 3), low = 0.2)
-#'   condition(Beta(2, 3), high = 0.9)
-#'   condition(Beta(2, 3), low = 0.2, high = 0.9)
+#' condition(Beta(2, 3), low = 0.2)
+#' condition(Beta(2, 3), high = 0.9)
+#' condition(Beta(2, 3), low = 0.2, high = 0.9)
 #'
-#'   Beta(5, 7) %|% c(0.2, 0.7) # shorthand for conditioning on interval
-#'   Beta(5, 7) %|% 0.5 # condition on single point
+#' Beta(5, 7) %|% c(0.2, 0.7) # shorthand for conditioning on interval
+#' Beta(5, 7) %|% 0.5 # condition on single point
 #'
-#'   Beta(5, 7) <= 0.5 # = condition(Beta(5, 7), high = 0.5)
-#'   0.2 <= Beta(5, 7) # = condition(Beta(5, 7), low = 0.2)
-#' }
+#' Beta(5, 7) <= 0.5 # = condition(Beta(5, 7), high = 0.5)
+#' 0.2 <= Beta(5, 7) # = condition(Beta(5, 7), low = 0.2)
 setMethod('condition', c('Prior'), function(prior, low = 0, high = 1) {
     new(as.character(class(prior)),
         jprior = JuliaCall::julia_call('condition', prior@jprior, low = low, high = high)
@@ -70,7 +74,7 @@ setMethod('>=', c('Prior', 'numeric'), function(e1, e2) condition(e1, low = e2, 
 #' @param x \code{Prior} distribution object (\code{density})
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'   density(Beta(1, 1), seq(0, 1, .1)) == 1 # uniform distribution on [0, 1]
 #' }
 #' @rdname Prior
@@ -86,7 +90,7 @@ setMethod('density', c('Prior'), function(x, p) JuliaCall::julia_call('pdf.', p,
 setGeneric('cdf', function(prior, p, ...) standardGeneric('cdf'))
 
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'   cdf(PointMass(1/3), c(0.3, 1/3)) == c(0, 1)
 #' }
 #' @rdname Prior
@@ -95,7 +99,7 @@ setGeneric('cdf', function(prior, p, ...) standardGeneric('cdf'))
 setMethod('cdf', c('Prior', 'numeric'), function(prior, p) JuliaCall::julia_call('cdf.', p, prior@jprior) )
 
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'   mean(Beta(5, 7)) == 5/(5 + 7)
 #' }
 #' @rdname Prior
@@ -111,7 +115,7 @@ setClass('PointMass', slots = list(jprior = 'ANY'), contains = 'Prior')
 #' almost surely.
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'   PointMass(0.4)
 #' }
 #' @rdname Prior
@@ -139,7 +143,7 @@ NULL
 #' @rdname updating
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'   # point mass distributions are invariant under updating
 #'   update(PointMass(.4), 3, 10)
 #' }
@@ -155,19 +159,35 @@ setClass("Beta", slots = c(jprior = "ANY"), contains = "Prior")
 #' @param b Beta distribution paramter
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'   Beta(5, 7)
 #'   1/3*Beta(5, 7) + 2/3*Beta(1,1) # create a BetaMixture distribution
-#'  }
+#' }
 #' @rdname Prior
 #'
 #' @export
 Beta <- function(a, b) new('Beta', jprior = JuliaCall::julia_call('Beta', a, b))
 
+#' @param mu mean parameter
+#' @param sd standard deviation paramter
+#'
+#' @examples
+#' \dontrun{
+#'   Beta_mu_sd(.3, .2)
+#' }
+#' @rdname Prior
+#' @export
+Beta_mu_sd <- function(mu, sd) {
+    sd_ = sd
+    new('Beta',
+        jprior = JuliaCall::julia_call('Beta', mean = mu, sd = sd_)
+    )
+}
+
 #' @rdname updating
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'   update(Beta(5, 7), 3, 10) # same as Beta(8, 14)
 #' }
 #'
@@ -183,7 +203,7 @@ setClass("BetaMixture", slots = c(jprior = "ANY"), contains = 'Prior')
 #' @rdname updating
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'   update(1/3*Beta(5, 7) + 2/3*Beta(1,1), 3, 10) # update mixtures
 #' }
 #' @export
@@ -228,7 +248,7 @@ setClass("JeffreysPrior", slots = c(jprior = "ANY"), contains = 'Prior')
 #' @param design \code{\link{Design}} object
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'   design <- Design(c(0, 30, 25, 0), c(Inf, 10, 7, -Inf))
 #'   JeffreysPrior(design)
 #' }
@@ -240,7 +260,7 @@ JeffreysPrior <- function(design) new('JeffreysPrior',
 #' @rdname updating
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'   design    <- Design(c(0, 30, 25, 0), c(Inf, 10, 7, -Inf))
 #'   prior     <- JeffreysPrior(design)
 #'   posterior <- update(prior, 3, 10) # results in a GenericDistribution object (no analytical update)
