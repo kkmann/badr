@@ -43,8 +43,10 @@ RaoBlackwellEstimator <- function() {
 #'@export
 CompatibleMLE <- function(design, lambda = 1.0, epsilon = 1e-8,
                           smoothmax_scale = 10.0, max_iter = 1e4L) {
+    lambda_ <- lambda
+    epsilon_ <- epsilon
     jestimator <- JuliaCall::julia_call('CompatibleMLE',
-        design@jdesign, "\U003BB" = lambda, "\U003F5" = epsilon,
+        design@jdesign, lambda = lambda_, epsilon = epsilon_,
         smoothmax_scale = smoothmax_scale, max_iter = max_iter
     )
     structure(
