@@ -31,7 +31,7 @@ before_install:
   - export R_LD_LIBRARY_PATH="$(R RHOME)/lib:$HOME/julia/lib/julia"
 
 install:
-  - R -e 'install.packages("devtools", repos = c("http://cran.rstudio.com/")'
+  - R -e 'install.packages("devtools", repos = c("http://cran.rstudio.com/"))'
   - R -e 'devtools::install_deps(dep = TRUE, repos = c("http://cran.rstudio.com/"))'
   - R -e 'JuliaCall::julia_setup(); JuliaCall::julia_install_package("https://github.com/kkmann/bad.jl")'
 
