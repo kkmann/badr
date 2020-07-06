@@ -1,5 +1,3 @@
-load_julia_package()
-
 alpha <- .05
 beta  <- .2
 pnull <- .2

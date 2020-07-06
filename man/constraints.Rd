@@ -10,7 +10,7 @@
 }
 \arguments{
 \item{score}{either a score of type \code{Power} or \code{TypeOneErrorRate},
-see \code{\link{Score}}.}
+see \code{\link{scores}}.}
 
 \item{threshold}{lower (Power) or upper (type one error rate) threshold for
 the constraint}
@@ -34,5 +34,5 @@ Power and type-one-error-rate constraints
 }
 }
 \seealso{
-\code{\link{Score}}, \code{\link{objectives}}
+\code{\link{scores}}, \code{\link{objectives}}
 }

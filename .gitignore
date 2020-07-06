@@ -5,3 +5,5 @@
 badr.Rproj
 inst/doc
 docs/
+
+*.DS_Store

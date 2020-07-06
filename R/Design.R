@@ -2,6 +2,8 @@
 #'
 #' [todo]
 #'
+#' @include zzz.R
+#'
 #' @name Design
 
 setClass('Design', list(jdesign = 'ANY', label = 'character'))

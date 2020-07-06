@@ -9,10 +9,12 @@ Description: More about what it does (maybe more than one line)
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Depends:
-    tidyverse (>= 1.2.1)
 Imports:
     purrr (>= 0.3.4),
+    dplyr,
+    ggplot2,
+    tidyr,
+    magrittr,
     JuliaCall (>= 0.17.0),
     cowplot (>= 1.0.0),
     ggrepel (>= 0.8.1),
@@ -27,6 +29,7 @@ Suggests:
     covr
 RoxygenNote: 7.1.1
 Collate: 
+    'zzz.R'
     'Design.R'
     'Problem.R'
     'scores.R'
@@ -37,7 +40,6 @@ Collate:
     'orderings.R'
     'plots.R'
     'priors.R'
-    'setup.R'
     'util.R'
-    'zzz.R'
 VignetteBuilder: knitr
+URL: https://github.com/kkmann/badr

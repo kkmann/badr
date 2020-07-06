@@ -14,7 +14,7 @@ setClass('TypeOneErrorRateConstraint', list(jconstraint = 'ANY'), contains = 'Co
 #' @rdname constraints
 #'
 #' @param score either a score of type \code{Power} or \code{TypeOneErrorRate},
-#' see \code{\link{Score}}.
+#' see \code{\link{scores}}.
 #' @param threshold lower (Power) or upper (type one error rate) threshold for
 #' the constraint
 #' @param conditional vector of length two giving the corridor for conditional
