@@ -9,9 +9,6 @@ r:
   - release
   - devel
 
-env:
-  - R_REMOTES_NO_ERRORS_FROM_WARNINGS="true"
-
 repos:
   CRAN: http://cran.rstudio.com/
 
