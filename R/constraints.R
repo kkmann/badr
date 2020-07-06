@@ -1,7 +1,7 @@
 #' Power and type-one-error-rate constraints
 #'
 #'
-#' @seealso \code{\link{Score}}, \code{\link{objectives}}
+#' @seealso \code{\link{scores}}, \code{\link{objectives}}
 #'
 #' @name constraints
 
