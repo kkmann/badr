@@ -3,3 +3,5 @@
 .RData
 .Ruserdata
 badr.Rproj
+inst/doc
+docs/

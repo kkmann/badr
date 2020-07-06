@@ -19,7 +19,10 @@ Imports:
     methods (>= 3.5.0),
     rlang (>= 0.4.2)
 Suggests: 
-    testthat (>= 2.1.0)
+    testthat (>= 2.1.0),
+    knitr,
+    rmarkdown,
+    pkgdown
 RoxygenNote: 7.0.2
 Collate: 
     'Design.R'
@@ -35,3 +38,4 @@ Collate:
     'setup.R'
     'util.R'
     'zzz.R'
+VignetteBuilder: knitr
