@@ -23,7 +23,7 @@ before_install:
   - rm -rf ~/Downloads/julia*
   - export PATH="$HOME/julia/bin:$PATH"
   - export R_LD_LIBRARY_PATH="$(R RHOME)/lib:$HOME/julia/lib/julia"
-  - Rscript -e 'Sys.setenv(R_REMOTES_NO_ERRORS_FROM_WARNINGS = "true"); install.packages("JuliaCall", repos="http://cran.us.r-project.org""); JuliaCall::julia_setup(); JuliaCall::julia_install_package("https://github.com/kkmann/bad.jl")'
+  - Rscript -e 'Sys.setenv(R_REMOTES_NO_ERRORS_FROM_WARNINGS = "true"); install.packages("JuliaCall", repos="http://cran.us.r-project.org"); JuliaCall::julia_setup(); JuliaCall::julia_install_package("https://github.com/kkmann/bad.jl")'
 
 after_success:
   - Rscript -e 'library(covr); covr::codecov()'
