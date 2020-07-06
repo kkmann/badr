@@ -17,8 +17,8 @@ r_packages:
 before_install:
   - set -e
   - mkdir -p ~/Downloads
-  - curl -L https://julialang-s3.julialang.org/bin/linux/x64/1.4/julia-1.4.2-latest-linux-x86_64.tar.gz -o "$HOME/Downloads/julia.tar.gz"
-  - tar xzf "$HOME/Downloads/julia.tar.gz" -C "$HOME/Downloads"
+  - curl -L https://julialang-s3.julialang.org/bin/linux/x64/1.4/julia-1.4.2-linux-x86_64.tar.gz -o "$HOME/Downloads/julia.tar.gz"
+  - tar -xvzf "$HOME/Downloads/julia.tar.gz" -C "$HOME/Downloads"
   - cp -r "$(find "$HOME/Downloads" -maxdepth 2 -name "julia*" -type d | head -n 1)" "$HOME/julia"
   - rm -rf ~/Downloads/julia*
   - export PATH="$HOME/julia/bin:$PATH"
