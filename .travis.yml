@@ -18,11 +18,6 @@ repos:
 warnings_are_errors: true
 cache: packages
 
-r_packages:
-  - covr
-  - devtools
-  - pkgdown
-
 before_install:
   - set -e
   - mkdir -p ~/Downloads
