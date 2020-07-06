@@ -12,7 +12,7 @@ r:
 repos:
   CRAN: http://cran.rstudio.com/
 
-warnings_are_errors: true
+warnings_are_errors: false
 cache: packages
 
 before_install:
