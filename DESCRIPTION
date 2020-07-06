@@ -23,7 +23,7 @@ Suggests:
     knitr,
     rmarkdown,
     pkgdown
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.1
 Collate: 
     'Design.R'
     'Problem.R'

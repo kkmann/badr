@@ -55,7 +55,7 @@ setClass('SampleSize', list(jscore = 'ANY'), contains = 'Score')
 #'   # unconditional expected sample size
 #'   evaluate(ess, design)
 #'   # conditional sample size given X1 = 1 ( = 6 + 25 = 31)
-#'   evaluate(ess, x1 = 1)
+#'   evaluate(ess, design, x1 = 1)
 #'   # expected sample size given 2 responses out of 3 observations (in stage one)
 #'   evaluate(ess, design, partial = c(2, 3))
 #' }

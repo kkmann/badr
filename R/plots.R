@@ -38,9 +38,11 @@ fix_p_breaks <- function(annotations, threshold = .15) {
 plot_designs <- function(..., textsize = 1.75, ystep = 10, yexpandlower = .1,
                          skip_listing = NULL) {
 
-    designs    <- fix_design_names(...)
+    designs <- fix_design_names(...)
 
-    .dummy <<- map(designs,  as_tibble) %>% bind_rows()
+    .dummy <<- map(designs,  as_tibble) %>%
+        bind_rows() %>%
+        mutate(label = sprintf("%s (n1 = %i)", label, n1))
 
     plt <- ggplot(.dummy) +
         aes(x1) +
@@ -59,11 +61,7 @@ plot_designs <- function(..., textsize = 1.75, ystep = 10, yexpandlower = .1,
         scale_y_continuous("", breaks = seq(0, 1000, by = ystep),
                            expand = expansion(mult = c(yexpandlower, .05))) +
         scale_x_continuous(expression(x[1]), breaks = seq(0, 1000, by = 5)) +
-        facet_grid(1 ~ label, scales = 'free_x', space = "free_x",
-                   labeller = label_bquote(
-                       cols = .(label) ~ (n[1] == .(.dummy[.dummy$label == label, ]$n1[[1]]))
-                   )
-        ) +
+        facet_grid(1 ~ label, scales = 'free_x', space = "free_x") +
         theme_bw() +
         theme(
             panel.grid = element_blank(),
