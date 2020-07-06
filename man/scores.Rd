@@ -30,5 +30,5 @@ scores conditional on observed (partial) stage one results or stage
 two results or completely unconditional.
 }
 \seealso{
-\code{\link{SampleSize}}, \code{\link{Power}}, \code{\link{TypeOneErrorRate}}
+\code{\link{SampleSize}}, \code{\link{Power}}
 }

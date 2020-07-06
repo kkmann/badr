@@ -10,7 +10,7 @@ SampleSize(prior)
 \item{prior}{\code{\link{Prior}} object}
 }
 \description{
-this \code{\link{Score}} measures the expected sample size of a design
+this \code{\link{scores}} measures the expected sample size of a design
 under a specified \code{\link{Prior}}.
 }
 \examples{
@@ -27,5 +27,5 @@ under a specified \code{\link{Prior}}.
 }
 }
 \seealso{
-\code{\link{Prior}}, \code{\link{Score}}
+\code{\link{Prior}}, \code{\link{scores}}
 }

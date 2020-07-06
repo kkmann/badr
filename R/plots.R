@@ -1,3 +1,4 @@
+#' @importFrom purrr map_chr
 fix_design_names <- function(...) {
     designs <- list(...)
     # figure out design labels

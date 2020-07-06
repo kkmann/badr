@@ -12,6 +12,7 @@ LazyData: true
 Depends:
     tidyverse (>= 1.2.1)
 Imports:
+    purrr (>= 0.3.4),
     JuliaCall (>= 0.17.0),
     cowplot (>= 1.0.0),
     ggrepel (>= 0.8.1),
@@ -22,7 +23,8 @@ Suggests:
     testthat (>= 2.1.0),
     knitr,
     rmarkdown,
-    pkgdown
+    pkgdown,
+    covr
 RoxygenNote: 7.1.1
 Collate: 
     'Design.R'

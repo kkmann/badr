@@ -36,5 +36,5 @@ probability atom.
 }
 }
 \seealso{
-\code{\link{Prior}}, \code{\link{Score}}
+\code{\link{Prior}}, \code{\link{scores}}
 }

@@ -6,7 +6,7 @@
 #' scores conditional on observed (partial) stage one results or stage
 #' two results or completely unconditional.
 #'
-#' @seealso \code{\link{SampleSize}}, \code{\link{Power}}, \code{\link{TypeOneErrorRate}}
+#' @seealso \code{\link{SampleSize}}, \code{\link{Power}}
 #'
 #' @name scores
 
@@ -40,12 +40,12 @@ setClass('SampleSize', list(jscore = 'ANY'), contains = 'Score')
 
 #' Sample-size score
 #'
-#' this \code{\link{Score}} measures the expected sample size of a design
+#' this \code{\link{scores}} measures the expected sample size of a design
 #' under a specified \code{\link{Prior}}.
 #'
 #' @param prior \code{\link{Prior}} object
 #'
-#' @seealso \code{\link{Prior}}, \code{\link{Score}}
+#' @seealso \code{\link{Prior}}, \code{\link{scores}}
 #'
 #' @examples
 #' \donttest{
@@ -76,7 +76,7 @@ setClass('Power', list(jscore = 'ANY'), contains = 'Score')
 #' @param prior \code{\link{Prior}} object
 #' @param pmcr minimal clinically relevant response rate
 #'
-#' @seealso \code{\link{Prior}}, \code{\link{Score}}
+#' @seealso \code{\link{Prior}}, \code{\link{scores}}
 #'
 #' @examples
 #' \donttest{
