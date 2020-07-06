@@ -57,7 +57,7 @@ plot_designs <- function(..., textsize = 1.75, ystep = 10, yexpandlower = .1,
             ),
             size = textsize, lineheight = .8, vjust = 1) +
         scale_y_continuous("", breaks = seq(0, 1000, by = ystep),
-                           expand = expand_scale(mult = c(yexpandlower, .05))) +
+                           expand = expansion(mult = c(yexpandlower, .05))) +
         scale_x_continuous(expression(x[1]), breaks = seq(0, 1000, by = 5)) +
         facet_grid(1 ~ label, scales = 'free_x', space = "free_x",
                    labeller = label_bquote(

@@ -18,9 +18,12 @@ under a specified \code{\link{Prior}}.
   load_julia_package()
   design <- Design(c(0, 25, 20, 11, 0, 0, 0), c(Inf, 10, 8, 6, -Inf, -Inf, -Inf))
   ess    <- SampleSize(Beta(5, 7))
-  evaluate(ess, design) # unconditional expected sample size
-  evaluate(ess, x1 = 1) # conditional sample size given X1 = 1 ( = 6 + 25 = 31)
-  evaluate(ess, design, partial = c(2, 3)) # expected sample size given 2 responses out of 3 observations (in stage one)
+  # unconditional expected sample size
+  evaluate(ess, design)
+  # conditional sample size given X1 = 1 ( = 6 + 25 = 31)
+  evaluate(ess, x1 = 1)
+  # expected sample size given 2 responses out of 3 observations (in stage one)
+  evaluate(ess, design, partial = c(2, 3))
 }
 }
 \seealso{

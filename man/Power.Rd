@@ -22,10 +22,14 @@ probability atom.
   load_julia_package()
   design <- Design(c(0, 25, 20, 11, 0, 0, 0), c(Inf, 10, 8, 6, -Inf, -Inf, -Inf))
   power  <- Power(Beta(5, 7) >= 0.3)
-  evaluate(power, design) # unconditional expected power
-  evaluate(power, design, partial = c(2, 4)) # expected power given 2 out of 4 responses in stage one
-  evaluate(power, design, x1 = 1) # expected power given 1 stage-one response
-  evaluate(power, design, x1 = 1, partial = c(8, 12)) # expected power given 1 stage one response and 8 out of 12 stage two responses
+  # unconditional expected power
+  evaluate(power, design)
+  # expected power given 2 out of 4 responses in stage one
+  evaluate(power, design, partial = c(2, 4))
+  # expected power given 1 stage-one response
+  evaluate(power, design, x1 = 1)
+  # expected power given 1 stage one response and 8 out of 12 stage two responses
+  evaluate(power, design, x1 = 1, partial = c(8, 12))
 
   utility <- 80*Power(Beta(5, 7) >= 0.3) - SampleSize(Beta(5, 7))
   evaluate(utility, design)

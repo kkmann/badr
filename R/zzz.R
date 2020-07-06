@@ -5,6 +5,7 @@
 #' @import tidyverse
 #'
 #' @importFrom methods is new
+#' @importFrom stats complete.cases pbinom qnorm
 #'
 #' @docType package
 #' @name badr

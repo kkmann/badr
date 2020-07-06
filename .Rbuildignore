@@ -5,4 +5,3 @@
 ^pkgdown$
 ^.travis.yml$
 ^license.md$
-^vignettes$

@@ -20,6 +20,7 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(badr)
+
 # make sure Julia is installed and found by JuliaCall package
 load_julia_package() 
 ```
