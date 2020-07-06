@@ -25,6 +25,7 @@ Power and type-one-error-rate constraints
 }
 \examples{
 \donttest{
+  load_julia_package()
   toer_cnstr  <- Power(Beta(5, 7) \%|\% 0.2) <= 0.05 # maximal type one error rate constraint
   power_cnstr <- (Power(Beta(5, 7) >=  0.3) >= 0.8) \%>\%
     conditional(c(0.25, 1.00)) # power constraint with conditional power (given x1) restricted to 25\%-100\%

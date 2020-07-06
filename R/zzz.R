@@ -4,6 +4,8 @@
 #'
 #' @import tidyverse
 #'
+#' @importFrom methods is new
+#'
 #' @docType package
 #' @name badr
 NULL

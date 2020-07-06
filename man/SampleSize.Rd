@@ -15,6 +15,7 @@ under a specified \code{\link{Prior}}.
 }
 \examples{
 \donttest{
+  load_julia_package()
   design <- Design(c(0, 25, 20, 11, 0, 0, 0), c(Inf, 10, 8, 6, -Inf, -Inf, -Inf))
   ess    <- SampleSize(Beta(5, 7))
   evaluate(ess, design) # unconditional expected sample size

@@ -1,7 +1,7 @@
 fix_design_names <- function(...) {
     designs <- list(...)
     # figure out design labels
-    if (is.null(names(designs))) names(designs) <- purrr:::map_chr(designs, ~.@label)
+    if (is.null(names(designs))) names(designs) <- purrr::map_chr(designs, ~.@label)
     # fix missing labels
     i <- 1; for (j in 1:length(designs)) {
         if (names(designs)[j] == "") {

@@ -31,6 +31,7 @@ Various shorthand notations are supported (see examples).
 \examples{
 badr::load_julia_package()
 
+load_julia_package()
 condition(Beta(2, 3), low = 0.2)
 condition(Beta(2, 3), high = 0.9)
 condition(Beta(2, 3), low = 0.2, high = 0.9)

@@ -19,6 +19,7 @@ probability atom.
 }
 \examples{
 \donttest{
+  load_julia_package()
   design <- Design(c(0, 25, 20, 11, 0, 0, 0), c(Inf, 10, 8, 6, -Inf, -Inf, -Inf))
   power  <- Power(Beta(5, 7) >= 0.3)
   evaluate(power, design) # unconditional expected power

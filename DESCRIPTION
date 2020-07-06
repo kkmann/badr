@@ -1,9 +1,9 @@
 Package: badr
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
+Title: Binary Adaptive (single-arm) Designs in R
+Version: 0.1.0.9000
 Author: Kevin Kunzmann
-Maintainer: The package maintainer <yourself@somewhere.net>
+Maintainer: Kevin Kunzmann <kevin.kunzmann@mrc-bsu.cam.ac.uk>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
 License: MIT + file LICENSE

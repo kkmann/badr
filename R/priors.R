@@ -39,6 +39,7 @@ setGeneric('condition', function(prior, low = 0, high = 1) standardGeneric('cond
 #' @rdname condition
 #'
 #' @examples
+#' load_julia_package()
 #' condition(Beta(2, 3), low = 0.2)
 #' condition(Beta(2, 3), high = 0.9)
 #' condition(Beta(2, 3), low = 0.2, high = 0.9)
