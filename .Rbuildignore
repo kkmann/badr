@@ -6,3 +6,4 @@
 ^.travis.yml$
 ^license.md$
 ^codecov\.yml$
+^\.github$

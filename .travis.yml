@@ -38,12 +38,6 @@ install:
   - R -e 'devtools::install_deps(dep = TRUE, repos = c("http://cran.rstudio.com/"))'
   - R -e 'JuliaCall::julia_setup(); JuliaCall::julia_install_package("https://github.com/kkmann/bad.jl")'
 
-script:
-  - set -e
-  - R CMD build .
-  - R CMD INSTALL *.tar.gz
-  - R CMD check --as-cran *.tar.gz
-
 after_success:
   - Rscript -e 'covr::codecov()'
   - Rscript -e 'pkgdown::build_site()'
