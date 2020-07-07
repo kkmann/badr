@@ -18,7 +18,6 @@ before_install:
   - rm -rf ~/Downloads/julia*
   - export PATH="$HOME/julia/bin:$PATH"
   - export R_LD_LIBRARY_PATH="$(R RHOME)/lib:$HOME/julia/lib/julia"
-  - echo 'insecure' >> $HOME/.curlrc # 'fix' certificate problems
 
 install:
   - R -e 'install.packages("devtools")'
