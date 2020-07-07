@@ -6,9 +6,6 @@ r:
   - release
   - devel
 
-repos:
-  CRAN: https://packagemanager.rstudio.com/all/__linux__/xenial/latest
-
 warnings_are_errors: false
 cache: packages
 
@@ -32,11 +29,11 @@ after_success:
   # - Rscript -e 'covr::codecov()'
   # - Rscript -e 'pkgdown::build_site()'
 
-deploy:
-  provider: pages
-  skip-cleanup: true
-  github-token: $GH_PAT
-  keep-history: true
-  local-dir: docs
-  on:
-    branch: master
+#deploy:
+#  provider: pages
+#  skip-cleanup: true
+#  github-token: $GH_PAT
+#  keep-history: true
+#  local-dir: docs
+#  on:
+#    branch: master
