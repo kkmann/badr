@@ -8,6 +8,8 @@ r:
 
 warnings_are_errors: false
 cache: packages
+repos:
+  CRAN: http://cran.rstudio.com/
 
 before_install:
   - set -e
@@ -24,12 +26,12 @@ install:
   - R -e 'devtools::install_deps(dep = TRUE)'
   - R -e 'JuliaCall::julia_setup()'
 
-after_success:
+#after_success:
   # - Rscript -e 'covr::codecov()'
-  - Rscript -e 'pkgdown::build_site()'
+  # - Rscript -e 'pkgdown::build_site()'
 
-before_cache: Rscript -e 'remotes::install_cran("pkgdown")'
-deploy:
-  provider: script
-  script: Rscript -e 'pkgdown::deploy_site_github()'
-  skip_cleanup: true
+#before_cache: Rscript -e 'remotes::install_cran("pkgdown")'
+#deploy:
+#  provider: script
+#  script: Rscript -e 'pkgdown::deploy_site_github()'
+#  skip_cleanup: true
