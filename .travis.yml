@@ -7,7 +7,7 @@ r:
   - devel
 
 repos:
-  CRAN: http://cran.rstudio.com/
+  CRAN: https://packagemanager.rstudio.com/all/__linux__/xenial/latest
 
 warnings_are_errors: false
 cache: packages
@@ -24,13 +24,13 @@ before_install:
   - echo 'insecure' >> $HOME/.curlrc # 'fix' certificate problems
 
 install:
-  - R -e 'install.packages("devtools", repos = c("http://cran.rstudio.com/"))'
-  - R -e 'devtools::install_deps(dep = TRUE, repos = c("http://cran.rstudio.com/"))'
+  - R -e 'install.packages("devtools")'
+  - R -e 'devtools::install_deps(dep = TRUE)'
   - R -e 'JuliaCall::julia_setup()'
 
 after_success:
-  - Rscript -e 'covr::codecov()'
-  - Rscript -e 'pkgdown::build_site()'
+  # - Rscript -e 'covr::codecov()'
+  # - Rscript -e 'pkgdown::build_site()'
 
 deploy:
   provider: pages
