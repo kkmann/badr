@@ -1,5 +1,5 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
-dist: bionic
+
 language: r
 
 r:
@@ -26,10 +26,11 @@ install:
   - R -e 'install.packages("devtools")'
   - R -e 'devtools::install_deps(dep = TRUE)'
   - R -e 'JuliaCall::julia_setup()'
+  - R -e 'devtools::install()'
 
-#after_success:
-  # - Rscript -e 'covr::codecov()'
-  # - Rscript -e 'pkgdown::build_site()'
+after_success:
+  - Rscript -e 'httr::set_config(httr::config(ssl_verifypeer = 0L)); covr::codecov()'
+  - Rscript -e 'httr::set_config(httr::config(ssl_verifypeer = 0L)); pkgdown::build_site()'
 
 #before_cache: Rscript -e 'remotes::install_cran("pkgdown")'
 #deploy:

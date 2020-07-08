@@ -14,9 +14,9 @@
 NULL
 
 #' @export
-load_julia_package <- function(...){
+load_julia_package <- function(verbose = FALSE, useRCall = FALSE, ...){
     tryCatch({
-        JuliaCall::julia_setup(..., verbose = FALSE, install = FALSE, useRCall = FALSE)
+        JuliaCall::julia_setup(..., verbose = verbose, useRCall = useRCall)
         JuliaCall::julia_command(sprintf(
             'import Pkg; Pkg.activate("%s"); Pkg.instantiate(); using bad',
             system.file("julia_environment", package = "badr")
