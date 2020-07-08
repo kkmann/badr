@@ -30,10 +30,10 @@ install:
 
 after_success:
   - Rscript -e 'httr::set_config(httr::config(ssl_verifypeer = 0L)); covr::codecov()'
-  - Rscript -e 'httr::set_config(httr::config(ssl_verifypeer = 0L)); pkgdown::build_site()'
+  - Rscript -e 'httr::set_config(httr::config(ssl_verifypeer = 0L)); pkgdown::build_site(new_process = FALSE)'
 
-#before_cache: Rscript -e 'remotes::install_cran("pkgdown")'
-#deploy:
-#  provider: script
-#  script: Rscript -e 'pkgdown::deploy_site_github()'
-#  skip_cleanup: true
+before_cache: Rscript -e 'remotes::install_cran("pkgdown")'
+deploy:
+  provider: script
+  script: Rscript -e 'httr::set_config(httr::config(ssl_verifypeer = 0L)); pkgdown::deploy_site_github()'
+  skip_cleanup: true
