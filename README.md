@@ -5,3 +5,9 @@
 
 
 # badr
+
+Compute optimal binary adaptive (single-arm) designs under various
+planning assumptions and conduct compatible inference about the reponse rate.
+This package is a thin wrapper around the Julia implementation [`bad.jl`](https://github.com/kkmann/bad.jl).
+
+The documentation is hosted [here](https://kkmann.github.io/badr/).
