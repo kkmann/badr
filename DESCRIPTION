@@ -1,6 +1,7 @@
 Package: badr
 Type: Package
 Title: Optimal Binary Adaptive (Single-Arm) Designs in R
+Version: 0.1.3
 Author: Kevin Kunzmann
 Maintainer: Kevin Kunzmann <kevin.kunzmann@mrc-bsu.cam.ac.uk>
 Description: Compute optimal binary adaptive (single-arm) designs under various
