@@ -1,25 +1,21 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
-
-os: linux
-
 dist: focal
-
+addons:
+  apt:
+    packages:
+    - libxml2-dev
+    - libharfbuzz-dev 
+    - libfribidi-dev
+    
 language: r
-
 r:
   - oldrel
   - release
   - devel
-
 warnings_are_errors: false
 cache: packages
 repos:
   CRAN: http://cran.rstudio.com/
-
-apt_packages:
-  - libxml2-dev
-  - libharfbuzz-dev 
-  - libfribidi-dev
 
 before_install:
   - set -e
