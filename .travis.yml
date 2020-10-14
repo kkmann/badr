@@ -12,6 +12,11 @@ cache: packages
 repos:
   CRAN: http://cran.rstudio.com/
 
+apt_packages:
+  - libxml2-dev
+  - libharfbuzz-dev 
+  - libfribidi-dev
+
 before_install:
   - set -e
   - mkdir -p ~/Downloads
